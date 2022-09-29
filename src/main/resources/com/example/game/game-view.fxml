@@ -17,7 +17,7 @@
     </padding>
    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1883.0" spacing="20.0">
       <children>
-         <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="274.0" style="-fx-background-color: #975C4E; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );" text="Try another planet" textFill="WHITE">
+         <Button fx:id="backButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="274.0" style="-fx-background-color: #975C4E; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );" text="Try another planet" textFill="WHITE">
             <font>
                <Font name="Bauhaus 93" size="24.0" />
             </font>

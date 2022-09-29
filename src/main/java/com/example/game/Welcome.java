@@ -33,7 +33,7 @@ public class Welcome extends Application {
     public void start(Stage stage) throws IOException {
         setPrimaryStage(stage);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Game.class.getResource("welcome-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Welcome.class.getResource("welcome-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1820, 980);
         stage.setTitle("Climate Manager");
         stage.setScene(scene);
@@ -59,10 +59,11 @@ public class Welcome extends Application {
 
     @FXML
     public void initialize() {
+        // Event Listener for Start Button
         startButton.setOnAction(e -> {
             Parent newRoot = null;
             try {
-                newRoot = FXMLLoader.load(getClass().getResource("game-view.fxml"));
+                newRoot = FXMLLoader.load(Welcome.class.getResource("game-view.fxml"));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

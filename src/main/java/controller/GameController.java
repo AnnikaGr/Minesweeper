@@ -1,9 +1,11 @@
 package controller;
 
 import com.example.game.Game;
+import com.example.game.Welcome;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class GameController  {
     @FXML private GridPane grid;
-
+    @FXML private Button backButton;
 
 
     @FXML
@@ -45,6 +47,18 @@ public class GameController  {
             grid.add(label,i%26,i/26);
             grid.add(button, i % 26, i / 26);
         }
+
+
+        // Event Listeners
+        backButton.setOnAction(e -> {
+            Parent newRoot = null;
+            try {
+                newRoot = FXMLLoader.load(Welcome.class.getResource("welcome-view.fxml"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Welcome.getPrimaryStage().getScene().setRoot(newRoot);
+        });
 
 
 
