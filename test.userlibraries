@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Maven: org.openjfx:javafx-controls:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-controls/11.0.2/javafx-controls-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-controls:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-controls/11.0.2/javafx-controls-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-fxml:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-fxml:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-graphics:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-graphics/11.0.2/javafx-graphics-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-graphics:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-graphics/11.0.2/javafx-graphics-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-media:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-media/11.0.2/javafx-media-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-media:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-media/11.0.2/javafx-media-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-web:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-web/11.0.2/javafx-web-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-web:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-web/11.0.2/javafx-web-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.opentest4j:opentest4j:1.2.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" />
+  </library>
+  <library name="Maven: eu.hansolo:tilesfx:11.48">
+    <archive path="C:/Users/Annika/.m2/repository/eu/hansolo/tilesfx/11.48/tilesfx-11.48.jar" />
+  </library>
+  <library name="Maven: org.apiguardian:apiguardian-api:1.1.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar" />
+  </library>
+  <library name="Maven: org.controlsfx:controlsfx:11.1.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/controlsfx/controlsfx/11.1.0/controlsfx-11.1.0.jar" />
+  </library>
+  <library name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.7.1/junit-jupiter-api-5.7.1.jar" />
+  </library>
+  <library name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.7.1/junit-jupiter-engine-5.7.1.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-commons:1.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/platform/junit-platform-commons/1.7.1/junit-platform-commons-1.7.1.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-engine:1.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/platform/junit-platform-engine/1.7.1/junit-platform-engine-1.7.1.jar" />
+  </library>
+  <library name="Maven: org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/bootstrapfx/bootstrapfx-core/0.4.0/bootstrapfx-core-0.4.0.jar" />
+  </library>
+  <library name="Maven: org.kordamp.ikonli:ikonli-core:12.2.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/ikonli/ikonli-core/12.2.0/ikonli-core-12.2.0.jar" />
+  </library>
+  <library name="Maven: org.kordamp.ikonli:ikonli-javafx:12.2.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/ikonli/ikonli-javafx/12.2.0/ikonli-javafx-12.2.0.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-base:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-base:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2-win.jar" />
+  </library>
+  <library name="Python 3.7 interpreter library" />
+  <library name="Python 3.9 interpreter library">
+    <archive path="C:/Users/Annika/AppData/Local/Programs/Python/Python39/DLLs" />
+    <archive path="C:/Users/Annika/AppData/Local/Programs/Python/Python39/Lib" />
+    <archive path="C:/Users/Annika/AppData/Local/Programs/Python/Python39" />
+    <archive path="C:/Users/Annika/AppData/Local/JetBrains/IdeaIC2021.2/python_stubs/1997203402" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/python-skeletons" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stdlib" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/jwt" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/six" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/mock" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/nmap" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/annoy" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/attrs" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/polib" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/retry" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/docopt" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/enum34" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/orjson" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/pysftp" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/xxhash" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/chardet" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/futures" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/pyaudio" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/tzlocal" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/aiofiles" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/colorama" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/filelock" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/Markdown" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/paramiko" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/pathlib2" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/requests" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/waitress" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/Werkzeug" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/freezegun" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/ipaddress" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/pyRFC3339" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/typed-ast" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/cachetools" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/Deprecated" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/frozendict" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/pyfarmhash" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/contextvars" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/JACK-Client" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/atomicwrites" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/cryptography" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/click-spinner" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/DateTimeRange" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/pkg_resources" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/python-gflags" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/python-slugify" />
+    <archive path="C:/Users/Annika/AppData/Roaming/JetBrains/IdeaIC2021.2/plugins/python-ce/helpers/typeshed/stubs/python-dateutil" />
+  </library>
+</eclipse-userlibraries>
+

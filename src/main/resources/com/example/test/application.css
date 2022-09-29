@@ -1,0 +1,12 @@
+/*  design inspiration taken from: https://static01.nyt.com/images/2022/02/21/headway/hero-peat-desktop/hero-peat-desktop-superJumbo-v2.png?auto=webp&quality=90
+Icons:
+https://thenounproject.com/icon/bucket-5195336/
+https://thenounproject.com/icon/search-1594159/
+
+*/
+.background {
+    -fx-background-image:url('./images/page_background.jpg');
+}
+
+
+
