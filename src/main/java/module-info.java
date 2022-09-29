@@ -8,8 +8,8 @@ module com.example.test {
     //requires org.kordamp.bootstrapfx.core;
     //requires eu.hansolo.tilesfx;
 
-    opens com.example.test to javafx.fxml;
-    exports com.example.test;
+    opens com.example.game to javafx.fxml;
+    exports com.example.game;
     exports controller;
     opens controller to javafx.fxml;
 }

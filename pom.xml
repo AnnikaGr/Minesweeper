@@ -90,7 +90,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.test/com.example.test.Game</mainClass>
+                            <mainClass>com.example.test/com.example.game.Game</mainClass>
                         </configuration>
                     </execution>
                 </executions>

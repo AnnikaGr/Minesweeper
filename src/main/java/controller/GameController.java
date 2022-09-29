@@ -1,6 +1,8 @@
 package controller;
 
+import com.example.game.Game;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,15 +12,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class GameController implements Initializable {
+public class GameController  {
     @FXML private GridPane grid;
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    @FXML
+    public void initialize() {
         // parts of this code are taken from the answers at https://stackoverflow.com/questions/35344702/how-do-i-get-buttons-to-fill-a-javafx-gridpane
         int numRows = 15 ;
         int numColumns = 26 ;
@@ -42,7 +46,11 @@ public class GameController implements Initializable {
             grid.add(button, i % 26, i / 26);
         }
 
+
+
     }
+
+
 
     private Button createButton(String text) {
         Button button = new Button(text);
