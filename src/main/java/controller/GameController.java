@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -18,10 +20,18 @@ import java.io.IOException;
 public class GameController  {
     @FXML private GridPane grid;
     @FXML private Button backButton;
-    @FXML
-    Board board;
+    @FXML Board board;
 
     private Game gameInstance;
+
+    public GameController(Game model) {
+        // ensure model is only set once:
+        if (this.gameInstance != null) {
+            throw new IllegalStateException("Model can only be initialized once");
+        }
+
+        this.gameInstance = model ;
+    }
 
 
     // initialize view and model
@@ -29,8 +39,33 @@ public class GameController  {
     @FXML
     public void initialize() {
         // parts of this code are taken from the answers at https://stackoverflow.com/questions/35344702/how-do-i-get-buttons-to-fill-a-javafx-gridpane
-        int numRows = 15 ;
-        int numColumns = 26 ;
+
+        // set planet size
+        int numRows=1;
+        int numColumns =1;
+        if ( gameInstance.isPlanetBig()){
+            numRows = 20 ;
+            numColumns = 32 ;
+        }
+        else{
+            numRows = 15 ;
+            numColumns = 26 ;
+        }
+
+        //set climate relevant area size = number of mines
+        int numMines=100;
+        if ( gameInstance.isProtectedBig()){
+            numMines = 200;
+        }
+        else{
+            numMines = 100;
+        }
+
+        // create Model
+        Board board = new Board (numRows, numColumns, numMines);
+        this.board= board;
+
+        // create grid of buttons
         for (int row = 0 ; row < numRows ; row++ ){
             RowConstraints rc = new RowConstraints();
             rc.setFillHeight(true);
@@ -43,9 +78,6 @@ public class GameController  {
             cc.setHgrow(Priority.ALWAYS);
             grid.getColumnConstraints().add(cc);
         }
-
-        Board board = new Board (numRows, numColumns, 100);
-        this.board= board;
 
         for (int i = 0; i< numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
@@ -62,9 +94,7 @@ public class GameController  {
                 grid.add(button, j, i );
             }
         }
-        for (int i = 0 ; i < numRows*numColumns ; i++) {
 
-        }
 
 
         // Event Listeners

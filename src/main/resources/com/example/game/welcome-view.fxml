@@ -42,15 +42,18 @@
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="togglePlanetSize" />
+                     </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="small" textFill="WHITE">
+                  <RadioButton mnemonicParsing="false" text="small" textFill="WHITE" toggleGroup="$togglePlanetSize">
                      <font>
                         <Font name="Bauhaus 93" size="24.0" />
                      </font>
                   </RadioButton>
                </children>
             </HBox>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Population">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Climate Relevant Areas">
                <font>
                   <Font name="Bauhaus 93" size="36.0" />
                </font>
@@ -67,14 +70,25 @@
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="toggleClimateRelevantSize" />
+                     </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="big" textFill="WHITE">
+                  <RadioButton mnemonicParsing="false" text="big" textFill="WHITE" toggleGroup="$toggleClimateRelevantSize">
                      <font>
                         <Font name="Bauhaus 93" size="24.0" />
                      </font>
                   </RadioButton>
                </children>
             </HBox>
+            <Text fx:id="errorText" fill="WHITE" stroke="#ff6e00" strokeType="OUTSIDE" strokeWidth="3.0">
+               <font>
+                  <Font name="Bauhaus 93" size="36.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="-20.0" top="30.0" />
+               </VBox.margin>
+            </Text>
             <Button fx:id="startButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="274.0" style="-fx-background-color: #975C4E; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );" text="Manage planet" textFill="WHITE">
                <font>
                   <Font name="Bauhaus 93" size="24.0" />

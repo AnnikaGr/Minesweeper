@@ -2,13 +2,16 @@ package com.example.game;
 
 import controller.GameController;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Game;
 
 import java.io.IOException;
 
@@ -16,6 +19,12 @@ public class Welcome extends Application {
 
 
     @FXML private Button startButton;
+
+    @FXML private ToggleGroup toggleClimateRelevantSize;
+    @FXML private ToggleGroup togglePlanetSize;
+    @FXML private Text errorText;
+
+    private Game gameInstance;
 
     private static Stage primaryStage;
 
@@ -34,7 +43,10 @@ public class Welcome extends Application {
         setPrimaryStage(stage);
 
         FXMLLoader fxmlLoader = new FXMLLoader(Welcome.class.getResource("welcome-view.fxml"));
+
+
         Scene scene = new Scene(fxmlLoader.load(), 1820, 980);
+
         stage.setTitle("Climate Manager");
         stage.setScene(scene);
         stage.show();
@@ -62,12 +74,25 @@ public class Welcome extends Application {
         // Event Listener for Start Button
         startButton.setOnAction(e -> {
             Parent newRoot = null;
-            try {
-                newRoot = FXMLLoader.load(Welcome.class.getResource("game-view.fxml"));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            getPrimaryStage().getScene().setRoot(newRoot);
+
+                FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+                RadioButton selectedPlanetSize = (RadioButton) togglePlanetSize.getSelectedToggle();
+                RadioButton selectedClimateRelevantSize = (RadioButton)toggleClimateRelevantSize.getSelectedToggle();
+                if(selectedPlanetSize ==null || selectedClimateRelevantSize== null){
+                    errorText.setText("Please choose the size of the planet and its climate relevant areas.");
+                }
+                else{
+                    try {
+                    gameLoader.setController(new GameController(new Game(selectedPlanetSize.getText().equals("big"), selectedClimateRelevantSize.getText().equals("big"))));
+                    newRoot=gameLoader.load();
+                    getPrimaryStage().getScene().setRoot(newRoot);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+
+
+
         });
     }
 }
