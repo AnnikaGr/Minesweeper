@@ -8,6 +8,8 @@ public class Board {
     private int numbMines; // total number of mines
     private int numExposedCells; // total cell exposed
     private int totalCells;
+
+    public int numBombsHit;
     public boolean lost;
 
     public int height;
@@ -17,26 +19,26 @@ public class Board {
     public boolean isMineFieldSet;
     public Cell[][] grid;
 
-    public void createMineField(int level) {
+    public Board (int numRow, int numCol, int numMines) {
 
-        int w = 0;
-        int h = 0;
+        int w = numCol;
+        int h = numRow;
 
-        if (level == 1) {
-            h = 9;
-            w = 9;
-            numbMines = 10;
-        }
-        if (level == 2) {
-            h = 16;
-            w = 16;
-            numbMines = 40;
-        }
-        if (level == 3) {
-            h = 16;
-            w = 30;
-            numbMines = 99;
-        }
+//        if (level == 1) {
+//            h = 9;
+//            w = 9;
+//            numbMines = 10;
+//        }
+//        if (level == 2) {
+//            h = 16;
+//            w = 16;
+//            numbMines = 40;
+//        }
+//        if (level == 3) {
+//            h = 16;
+//            w = 30;
+//            numbMines = 99;
+//        }
 
         height = h;
         width = w;
@@ -46,7 +48,7 @@ public class Board {
         int n = w * h; // total cells left
         totalCells = n;
 
-        int m = numbMines; // Number of mines to set
+        int m = numMines; // Number of mines to set
 
         int row, col;
 
@@ -84,7 +86,7 @@ public class Board {
                         }
                     }
                 }
-                cell.numbSurroundingmines = count;
+                cell.numSurroundingMines = count;
             }
         }
     }
@@ -115,7 +117,7 @@ public class Board {
         cell.exposed = true;
         numExposedCells++;
 
-        int n = cell.numbSurroundingmines;
+        int n = cell.numSurroundingMines;
 
         if (n == 0) {
             int w = width, h = height;
@@ -149,7 +151,7 @@ public class Board {
                     if (rr < 0 || rr >= h || cc < 0 || cc >= w)
                         continue;
                     Cell neighbor = grid[rr][cc];
-                    if (neighbor.exposed && neighbor.numbSurroundingmines == 0) {
+                    if (neighbor.exposed && neighbor.numSurroundingMines == 0) {
                         cell.exposed = true;
                         numExposedCells++;
                         return true;

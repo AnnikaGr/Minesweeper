@@ -24,6 +24,8 @@ public class GameController  {
     private Game gameInstance;
 
 
+    // initialize view and model
+    // set event listeners
     @FXML
     public void initialize() {
         // parts of this code are taken from the answers at https://stackoverflow.com/questions/35344702/how-do-i-get-buttons-to-fill-a-javafx-gridpane
@@ -42,15 +44,31 @@ public class GameController  {
             grid.getColumnConstraints().add(cc);
         }
 
+        Board board = new Board (numRows, numColumns, 100);
+        this.board= board;
+
+        for (int i = 0; i< numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                Button button = createButton("");
+                String content="";
+                if(board.grid[i][j].hasMine){
+                    content= "mine";
+                }
+                else {
+                    content = Integer.toString(board.grid[i][j].numSurroundingMines);
+                }
+                Label label = createLabel(content);
+                grid.add(label,j,i);
+                grid.add(button, j, i );
+            }
+        }
         for (int i = 0 ; i < numRows*numColumns ; i++) {
-            Button button = createButton("");
-            Label label = createLabel(" house");
-            grid.add(label,i%26,i/26);
-            grid.add(button, i % 26, i / 26);
+
         }
 
 
         // Event Listeners
+        //back button
         backButton.setOnAction(e -> {
             Parent newRoot = null;
             try {
@@ -60,6 +78,9 @@ public class GameController  {
             }
             Welcome.getPrimaryStage().getScene().setRoot(newRoot);
         });
+
+        // TODO put number when exposed
+
 
 
 
