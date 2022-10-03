@@ -12,6 +12,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Text;
 import model.Board;
 import model.Game;
 
@@ -20,7 +21,8 @@ import java.io.IOException;
 public class GameController  {
     @FXML private GridPane grid;
     @FXML private Button backButton;
-    @FXML Board board;
+    @FXML private Board board;
+    @FXML private Text infoText;
 
     private Game gameInstance;
 
@@ -108,11 +110,6 @@ public class GameController  {
             }
             Welcome.getPrimaryStage().getScene().setRoot(newRoot);
         });
-
-        // TODO put number when exposed
-
-
-
 
     }
 

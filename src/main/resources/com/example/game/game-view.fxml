@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" >
+<VBox alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0" styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@application.css" />
     </stylesheets>
@@ -179,4 +179,9 @@
       <VBox.margin>
          <Insets top="100.0" />
       </VBox.margin></HBox>
+   <Text fx:id="infoText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0">
+      <font>
+         <Font name="Bauhaus 93" size="24.0" />
+      </font>
+   </Text>
 </VBox>
