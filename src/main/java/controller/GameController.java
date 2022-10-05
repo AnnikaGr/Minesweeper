@@ -1,11 +1,14 @@
 package controller;
 
 import com.example.game.Welcome;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -131,9 +134,24 @@ public class GameController  {
 
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        //Event Listener
+        //Event Listeners
         button.setOnMouseClicked(e -> {Button tmp = (Button)e.getSource();
             tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");});
+
+        // -- with help from https://stackoverflow.com/questions/34171841/javafx-minesweeper-how-to-tell-between-right-and-left-mouse-button-input
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.SECONDARY)){
+                    Button tmp = (Button)mouseEvent.getSource();
+                    tmp.setStyle("-fx-border-color: #D94D3C;");
+                }
+                else if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    Button tmp = (Button)mouseEvent.getSource();
+                    tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                }
+            }
+        });
 
         return button ;
     }
