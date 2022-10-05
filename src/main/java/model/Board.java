@@ -6,10 +6,10 @@ import static java.lang.Math.random;
 
 public class Board {
     private int numbMines; // total number of mines
-    private int numExposedCells; // total cell exposed
+    public int numExposedCells; // total cell exposed
     private int totalCells;
 
-    public int numBombsHit;
+    public int numBombsHit=0;
     public boolean lost;
 
     public int height;
@@ -126,18 +126,23 @@ public class Board {
         Cell cell = grid[row][column];
 
         if (cell.hasMine) { // game over, exposed mine
-            lost = true;
+            numBombsHit= numBombsHit+1;
+            if(numBombsHit>=3){
+                lost=true;
+                return -3;
+            }
             return -1;
         }
+
         if (cell.exposed)
             return -2;
 
         cell.exposed = true;
         numExposedCells++;
 
-        int n = cell.numSurroundingMines;
+        int numSurroundingMines = cell.numSurroundingMines;
 
-        if (n == 0) {
+        if (numSurroundingMines == 0) {
             int w = width, h = height;
             boolean changed = true;
             while (changed) {
@@ -153,7 +158,7 @@ public class Board {
             }
             ;
         }
-        return n;
+        return numSurroundingMines;
     }
 
     public boolean isExposed(int column, int row) {

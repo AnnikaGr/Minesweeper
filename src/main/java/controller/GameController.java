@@ -1,6 +1,7 @@
 package controller;
 
 import com.example.game.Welcome;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import model.Board;
 import model.Game;
 
@@ -26,6 +29,7 @@ public class GameController  {
     @FXML private Button backButton;
     @FXML private Board board;
     @FXML private Text infoText;
+    @FXML private Text buildingCount;
 
     private Game gameInstance;
 
@@ -159,7 +163,8 @@ public class GameController  {
                 else if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     Button tmp = (Button)mouseEvent.getSource();
                     tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
-                    board.expose(grid.getColumnIndex(tmp), grid.getRowIndex(tmp));
+                    int status = board.expose(grid.getColumnIndex(tmp), grid.getRowIndex(tmp));
+                    handleExposeResult(status);
                 }
             }
         });
@@ -202,5 +207,42 @@ public class GameController  {
         return imageView;*/
         return label;
     }
+
+    private void handleExposeResult(int status){
+        if (status==-1) { // game over, exposed mine
+            //TODO increase slide
+        }
+        else if(status ==-3){
+            // TODO change to lost
+            System.out.println("Lost");
+            final Popup popup = new Popup();
+            popup.setX(300);
+            popup.setY(200);
+            popup.getContent().addAll(new Circle(25, 25, 50, Color.AQUAMARINE));
+
+            Button show = new Button("Show");
+            show.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    popup.show(Welcome.getPrimaryStage());
+                }
+            });
+
+            Button hide = new Button("Hide");
+            hide.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    popup.hide();
+                }
+            });
+        }
+        else {
+            // TODO update count for housing
+            buildingCount.setText(Integer.toString(board.numExposedCells));
+        }
+
+    }
+
+
 
 }

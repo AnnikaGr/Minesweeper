@@ -101,12 +101,12 @@
             </font>
          </Text>
          <Region maxHeight="19.0" prefHeight="19.0" prefWidth="454.0" />
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="houses built">
+         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="buildings">
             <font>
                <Font name="Bauhaus 93" size="36.0" />
             </font>
          </Text>
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <Text fx:id="buildingCount" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
             <font>
                <Font name="Bauhaus 93" size="72.0" />
             </font>
