@@ -6,12 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.Board;
 import model.Game;
@@ -88,10 +87,18 @@ public class GameController  {
                 if(board.grid[i][j].hasMine){
                     content= "mine";
                 }
+                else if (board.grid[i][j].hasWater){
+                    content = "water";
+                }
+                else if (board.grid[i][j].hasWell){
+                    content = "well";
+                }
                 else {
                     content = Integer.toString(board.grid[i][j].numSurroundingMines);
                 }
-                Label label = createLabel(content);
+                //
+
+                Label label = createCellContent(content);
                 grid.add(label,j,i);
                 grid.add(button, j, i );
             }
@@ -99,7 +106,7 @@ public class GameController  {
 
 
 
-        // Event Listeners
+        // Other Event Listeners
         //back button
         backButton.setOnAction(e -> {
             Parent newRoot = null;
@@ -110,6 +117,7 @@ public class GameController  {
             }
             Welcome.getPrimaryStage().getScene().setRoot(newRoot);
         });
+
 
     }
 
@@ -122,15 +130,45 @@ public class GameController  {
         //button.setStyle(" ");
 
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        button.setOnAction(e -> {Button tmp = (Button)e.getSource();
+
+        //Event Listener
+        button.setOnMouseClicked(e -> {Button tmp = (Button)e.getSource();
             tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");});
+
         return button ;
     }
 
-    private Label createLabel(String text){
+    private Label createCellContent(String text){
         Label label = new Label(text);
-        label.setStyle("-fx-background-color: #FFFFFF;");
         label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        //Cell content styling
+        label.setTextFill(Color.color(1, 1, 1));
+        if (text== "mine"){
+            label.setStyle("-fx-background-color: #D74F4C;");
+        }
+        else if (text== "water"){
+            label.setStyle("-fx-background-color: #0069D9;");
+        }
+        else if (text == "well"){
+            label.setStyle("-fx-background-color: #4DA3FF;");
+        }
+        else {
+            label.setStyle("-fx-background-color: #404040;");
+        }
+
+        //Event Listener
+        label.setOnScroll(e -> {Label tmp = (Label)e.getSource();
+            tmp.setStyle("-fx-background-color: #DBECFF;");
+        });
+
+        /*ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = getClass().getResourceAsStream("/house.png");
+        ImageView imageView = new ImageView(new Image(GameController.class.getClassLoader().getResourceAsStream("./com/example/game/images")));
+        imageView.setPreserveRatio(true);
+        imageView.fitWidthProperty().bind(grid.widthProperty().subtract(10d));
+        imageView.fitHeightProperty().bind(grid.heightProperty().subtract(10d));
+        return imageView;*/
         return label;
     }
 
