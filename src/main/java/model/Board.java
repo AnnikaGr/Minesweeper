@@ -125,7 +125,11 @@ public class Board {
     public int expose(int column, int row) {
         Cell cell = grid[row][column];
 
-        if (cell.hasMine) { // game over, exposed mine
+        if(unexposedCount()==0){
+            return -4;
+        }
+
+        if (cell.hasMine) {
             numBombsHit= numBombsHit+1;
             if(numBombsHit>=3){
                 lost=true;

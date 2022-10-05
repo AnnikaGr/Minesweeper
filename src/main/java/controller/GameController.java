@@ -21,6 +21,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 import model.Board;
 import model.Game;
+import view.LostPopup;
+import view.WinPopup;
 
 import java.io.IOException;
 
@@ -164,7 +166,7 @@ public class GameController  {
                     Button tmp = (Button)mouseEvent.getSource();
                     tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
                     int status = board.expose(grid.getColumnIndex(tmp), grid.getRowIndex(tmp));
-                    handleExposeResult(status);
+                    handleGameState(status);
                 }
             }
         });
@@ -208,33 +210,43 @@ public class GameController  {
         return label;
     }
 
-    private void handleExposeResult(int status){
+    private void handleGameState (int status){
         if (status==-1) { // game over, exposed mine
             //TODO increase slide
         }
         else if(status ==-3){
-            // TODO change to lost
-            System.out.println("Lost");
-            final Popup popup = new Popup();
-            popup.setX(300);
-            popup.setY(200);
-            popup.getContent().addAll(new Circle(25, 25, 50, Color.AQUAMARINE));
+            LostPopup popup= new LostPopup();
+            popup.getPopup().centerOnScreen();
 
-            Button show = new Button("Show");
-            show.setOnAction(new EventHandler<ActionEvent>() {
+            // Event handler
+            Button tryAgain= popup.getTryAgainButton();
+            tryAgain.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    popup.show(Welcome.getPrimaryStage());
+                    popup.getPopup().hide();
+                    //TODO restart application
                 }
             });
 
-            Button hide = new Button("Hide");
-            hide.setOnAction(new EventHandler<ActionEvent>() {
+            popup.getPopup().show(Welcome.getPrimaryStage());
+
+        }
+        else if(status ==-4){
+            WinPopup popup= new WinPopup();
+            popup.getPopup().centerOnScreen();
+
+            // Event handler
+            Button tryAgain= popup.getTryAgainButton();
+            tryAgain.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    popup.hide();
+                    popup.getPopup().hide();
+                    //TODO restart application
                 }
             });
+
+            popup.getPopup().show(Welcome.getPrimaryStage());
+
         }
         else {
             // TODO update count for housing
