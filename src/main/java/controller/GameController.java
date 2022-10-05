@@ -146,11 +146,20 @@ public class GameController  {
             public void handle(MouseEvent mouseEvent) {
                 if(mouseEvent.getButton().equals(MouseButton.SECONDARY)){
                     Button tmp = (Button)mouseEvent.getSource();
-                    tmp.setStyle("-fx-border-color: #D94D3C;");
+                    int row= grid.getRowIndex(tmp);
+                    int col= grid.getColumnIndex(tmp);
+                    if(!board.grid[row][col].marked){
+                        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #D94D3C; -fx-border-width: 3px;");
+                    }
+                    else{
+                        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF;");
+                    }
+                    board.mark(col, row);
                 }
                 else if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     Button tmp = (Button)mouseEvent.getSource();
                     tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                    board.expose(grid.getColumnIndex(tmp), grid.getRowIndex(tmp));
                 }
             }
         });
