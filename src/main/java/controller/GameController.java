@@ -4,6 +4,7 @@ import com.example.game.Welcome;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,7 +34,6 @@ public class GameController  {
         if (this.gameInstance != null) {
             throw new IllegalStateException("Model can only be initialized once");
         }
-
         this.gameInstance = model ;
     }
 
@@ -65,8 +65,10 @@ public class GameController  {
             numMines = 100;
         }
 
+        int numWells=100;
+
         // create Model
-        Board board = new Board (numRows, numColumns, numMines);
+        Board board = new Board (numRows, numColumns, numMines, numWells);
         this.board= board;
 
         // create grid of buttons
@@ -159,6 +161,7 @@ public class GameController  {
     private Label createCellContent(String text){
         Label label = new Label(text);
         label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
 
         //Cell content styling
         label.setTextFill(Color.color(1, 1, 1));
@@ -178,6 +181,7 @@ public class GameController  {
         //Event Listener
         label.setOnScroll(e -> {Label tmp = (Label)e.getSource();
             tmp.setStyle("-fx-background-color: #DBECFF;");
+            System.out.println("mouse scroll happening");
         });
 
         /*ClassLoader classloader = Thread.currentThread().getContextClassLoader();

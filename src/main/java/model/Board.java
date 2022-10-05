@@ -19,7 +19,7 @@ public class Board {
     public boolean isMineFieldSet;
     public Cell[][] grid;
 
-    public Board (int numRow, int numCol, int numMines) {
+    public Board (int numRow, int numCol, int numMines, int numWells) {
 
         int w = numCol;
         int h = numRow;
@@ -45,31 +45,49 @@ public class Board {
 
         grid = new Cell[h][w];
 
-        int n = w * h; // total cells left
-        totalCells = n;
+        int totalCells = w * h; // total cells left
+        this.totalCells = totalCells;
 
-        int m = numMines; // Number of mines to set
 
         int row, col;
 
         numExposedCells = 0;
 
-        for (row = 0; row < h; row++) { // place mines
+        //place mines
+        for (row = 0; row < h; row++) {
             for (col = 0; col < w; col++) {
                 Cell cell = new Cell();
                 cell.exposed = cell.marked = cell.hasMine = false;
-                double p = (double) m / (double) n; // probability of placing mine
+                //place mines
+                double p = (double) numMines / (double) totalCells; // probability
                 double g = random();
                 if (g < p) {
                     cell.hasMine = true;
-                    m--;
+                    numMines--;
                 }
-                n--;
+                totalCells--;
                 grid[row][col] = cell;
             }
         }
 
-        for (row = 0; row < h; row++) {// calculate surrounding mine counts
+        //place wells
+        totalCells = this.totalCells;
+        for (row = 0; row < h; row++) {
+            for (col = 0; col < w; col++) {
+                double p = (double) numWells / (double) totalCells; // probability
+                double g = random();
+                if (g < p) {
+                    if(!grid[row][col].hasMine){
+                        grid[row][col].hasWell = true;
+                        numMines--;
+                    }
+                }
+                totalCells--;
+            }
+        }
+
+        // calculate mine counts
+        for (row = 0; row < h; row++) {
             for (col = 0; col < w; col++) {
                 int i, j, count = 0;
                 Cell cell = grid[row][col];

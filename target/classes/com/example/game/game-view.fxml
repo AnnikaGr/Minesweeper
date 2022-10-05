@@ -123,6 +123,7 @@
       <children>
          <GridPane fx:id="grid" style="-fx-background-color: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
            <columnConstraints>
+               <ColumnConstraints halignment="CENTER" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="40.0" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="40.0" />
                <ColumnConstraints hgrow="SOMETIMES" minWidth="20.0" prefWidth="40.0" />
