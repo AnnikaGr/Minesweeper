@@ -125,7 +125,7 @@ public class Board {
     public int expose(int column, int row) {
         Cell cell = grid[row][column];
 
-        if(unexposedCount()==0){
+        if(unexposedCount()==1){
             return -4;
         }
 

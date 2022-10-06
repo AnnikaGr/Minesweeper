@@ -17,13 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import model.Board;
 import model.Game;
-import view.LostPopup;
-import view.WinPopup;
+import view.GameStatePopup;
 
 import java.io.IOException;
 
@@ -58,8 +55,10 @@ public class GameController  {
             numColumns = 26 ;
         }
         else{
-            numRows = 10 ;
-            numColumns = 19 ;
+//            numRows = 10 ;
+//            numColumns = 19 ;
+            numRows = 2 ;
+            numColumns = 2 ;
         }
 
         //set climate relevant area size = number of mines
@@ -68,10 +67,10 @@ public class GameController  {
             numMines = 200;
         }
         else{
-            numMines = 100;
+            numMines = 0;
         }
 
-        int numWells=100;
+        int numWells=0;
 
         // create Model
         Board board = new Board (numRows, numColumns, numMines, numWells);
@@ -121,13 +120,7 @@ public class GameController  {
         // Other Event Listeners
         //back button
         backButton.setOnAction(e -> {
-            Parent newRoot = null;
-            try {
-                newRoot = FXMLLoader.load(Welcome.class.getResource("welcome-view.fxml"));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            Welcome.getPrimaryStage().getScene().setRoot(newRoot);
+            returnToWelcome();
         });
 
 
@@ -213,12 +206,13 @@ public class GameController  {
 
     private void handleGameState (int status){
         if (status==-1) { // game over, exposed mine
-            //TODO increase slide
-        increaseTemperatureBar();
+            increaseTemperatureBar();
         }
         else if(status ==-3){
             increaseTemperatureBar();
-            LostPopup popup= new LostPopup();
+            GameStatePopup popup= new GameStatePopup("Oh no!",
+                    "You disrespected too many peatlands during the construction of your planet. It cannot keep the balance like that.",
+                    "Try again");
             popup.getPopup().centerOnScreen();
 
             // Event handler
@@ -227,7 +221,7 @@ public class GameController  {
                 @Override
                 public void handle(ActionEvent event) {
                     popup.getPopup().hide();
-                    //TODO restart application
+                    returnToWelcome();
                 }
             });
 
@@ -236,7 +230,9 @@ public class GameController  {
         }
         else if(status ==-4){
 
-            WinPopup popup= new WinPopup();
+            GameStatePopup popup= new GameStatePopup("Congratulations!",
+                    "You successfully managed our planet accommodating everybody while keeping its balance.",
+                    "Play again");
             popup.getPopup().centerOnScreen();
 
             // Event handler
@@ -245,7 +241,7 @@ public class GameController  {
                 @Override
                 public void handle(ActionEvent event) {
                     popup.getPopup().hide();
-                    //TODO restart application
+                    returnToWelcome();
                 }
             });
 
@@ -264,6 +260,15 @@ public class GameController  {
         temperatureBar.setProgress(old+0.25);
     }
 
+    private void returnToWelcome(){
+        Parent newRoot = null;
+        try {
+            newRoot = FXMLLoader.load(Welcome.class.getResource("welcome-view.fxml"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Welcome.getPrimaryStage().getScene().setRoot(newRoot);
+    }
 
 
 }
