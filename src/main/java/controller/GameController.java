@@ -1,6 +1,7 @@
 package controller;
 
 import com.example.game.Welcome;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,9 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -131,16 +130,44 @@ public class GameController  {
                             Node tmp = (Node)scrollEvent.getSource();
                             int row= grid.getRowIndex(tmp);
                             int col= grid.getColumnIndex(tmp);
+                        System.out.println("Scroll on grid");
 
                             if(board.grid[row][col].exposed&& board.grid[row][col].hasWell){
                                 System.out.println("Scroll on well");
-                                //TODO change in model board.mark(col, row);
+
+                                //TODO change in model gameInstance.increaseWaterAvailable();
                             }
                     }
 
 
+    });
 
-            });
+                item.setOnDragDetected(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        item.startFullDrag();
+                    }
+                });
+
+                item.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
+                    @Override
+                    public void handle(MouseDragEvent event) {
+                        Node tmp = (Node)event.getSource();
+                        int row= grid.getRowIndex(tmp);
+                        int col= grid.getColumnIndex(tmp);
+                        Label node = (Label)getNodeFromGridPane(grid, col, row);
+                        tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                        delay(1500, () -> tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )") );
+                     //TODO set maximum drag and drop distance
+                    }
+                });
+
+                item.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        //TODO subtract research available
+                    }
+                });
 
     });
     }
@@ -292,6 +319,30 @@ public class GameController  {
             ex.printStackTrace();
         }
         Welcome.getPrimaryStage().getScene().setRoot(newRoot);
+    }
+
+        private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+            for (Node node : gridPane.getChildren()) {
+                if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                    return node;
+                }
+            }
+            return null;
+        }
+
+
+    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
+    public static void delay(long millis, Runnable continuation) {
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try { Thread.sleep(millis); }
+                catch (InterruptedException e) { }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> continuation.run());
+        new Thread(sleeper).start();
     }
 
 
