@@ -6,12 +6,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -70,7 +72,7 @@ public class GameController  {
             numMines = 0;
         }
 
-        int numWells=0;
+        int numWells=100;
 
         // create Model
         Board board = new Board (numRows, numColumns, numMines, numWells);
@@ -115,8 +117,6 @@ public class GameController  {
             }
         }
 
-
-
         // Other Event Listeners
         //back button
         backButton.setOnAction(e -> {
@@ -124,8 +124,26 @@ public class GameController  {
         });
 
 
-    }
+            grid.getChildren().forEach(item -> {
+                item.setOnScroll( new EventHandler<ScrollEvent>() {
+                    @Override
+                    public void handle(ScrollEvent scrollEvent) {
+                            Node tmp = (Node)scrollEvent.getSource();
+                            int row= grid.getRowIndex(tmp);
+                            int col= grid.getColumnIndex(tmp);
 
+                            if(board.grid[row][col].exposed&& board.grid[row][col].hasWell){
+                                System.out.println("Scroll on well");
+                                //TODO change in model board.mark(col, row);
+                            }
+                    }
+
+
+
+            });
+
+    });
+    }
 
 
     private Button createButton(String text) {
@@ -164,6 +182,13 @@ public class GameController  {
                 }
             }
         });
+
+        button.setOnScrollStarted(e -> {Button tmp = (Button)e.getSource();
+            tmp.setStyle("-fx-background-color: #DBECFF;");
+            System.out.println("mouse scroll happening");
+        });
+
+
 
         return button ;
     }
@@ -249,7 +274,6 @@ public class GameController  {
 
         }
         else {
-            // TODO update count for housing
             buildingCount.setText(Integer.toString(board.numExposedCells));
         }
 
