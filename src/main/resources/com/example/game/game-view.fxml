@@ -169,7 +169,7 @@
                <RowConstraints minHeight="20.0" prefHeight="40.0" vgrow="SOMETIMES" />
            </rowConstraints>
          </GridPane>
-         <ProgressBar prefHeight="557.0" prefWidth="56.0" progress="0.0" style="-fx-background-color: #FFFFF;">
+         <ProgressBar fx:id="temperatureBar" prefHeight="56.0" prefWidth="557.0" progress="0.25" rotate="-90.0" style="-fx-background-color: #FFFFF;" stylesheets="@application.css">
             <HBox.margin>
                <Insets left="40.0" />
             </HBox.margin></ProgressBar>

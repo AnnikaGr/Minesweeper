@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -32,6 +33,7 @@ public class GameController  {
     @FXML private Board board;
     @FXML private Text infoText;
     @FXML private Text buildingCount;
+    @FXML private ProgressBar temperatureBar;
 
     private Game gameInstance;
 
@@ -48,18 +50,16 @@ public class GameController  {
     // set event listeners
     @FXML
     public void initialize() {
-        // parts of this code are taken from the answers at https://stackoverflow.com/questions/35344702/how-do-i-get-buttons-to-fill-a-javafx-gridpane
-
         // set planet size
         int numRows=1;
         int numColumns =1;
         if ( gameInstance.isPlanetBig()){
-            numRows = 20 ;
-            numColumns = 32 ;
-        }
-        else{
             numRows = 15 ;
             numColumns = 26 ;
+        }
+        else{
+            numRows = 10 ;
+            numColumns = 19 ;
         }
 
         //set climate relevant area size = number of mines
@@ -78,6 +78,7 @@ public class GameController  {
         this.board= board;
 
         // create grid of buttons
+        // parts of this code are taken from the answers at https://stackoverflow.com/questions/35344702/how-do-i-get-buttons-to-fill-a-javafx-gridpane
         for (int row = 0 ; row < numRows ; row++ ){
             RowConstraints rc = new RowConstraints();
             rc.setFillHeight(true);
@@ -213,8 +214,10 @@ public class GameController  {
     private void handleGameState (int status){
         if (status==-1) { // game over, exposed mine
             //TODO increase slide
+        increaseTemperatureBar();
         }
         else if(status ==-3){
+            increaseTemperatureBar();
             LostPopup popup= new LostPopup();
             popup.getPopup().centerOnScreen();
 
@@ -232,6 +235,7 @@ public class GameController  {
 
         }
         else if(status ==-4){
+
             WinPopup popup= new WinPopup();
             popup.getPopup().centerOnScreen();
 
@@ -253,6 +257,11 @@ public class GameController  {
             buildingCount.setText(Integer.toString(board.numExposedCells));
         }
 
+    }
+
+    private void increaseTemperatureBar(){
+        double old = temperatureBar.getProgress();
+        temperatureBar.setProgress(old+0.25);
     }
 
 

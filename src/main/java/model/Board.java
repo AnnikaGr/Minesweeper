@@ -146,22 +146,22 @@ public class Board {
 
         int numSurroundingMines = cell.numSurroundingMines;
 
-        if (numSurroundingMines == 0) {
-            int w = width, h = height;
+        /*if (numSurroundingMines == 0) {
+            int width = this.width, height = this.height;
             boolean changed = true;
             while (changed) {
-                int rr, cc;
+                int r, c;
                 changed = false;
-                for (rr = 0; rr < h; rr++) {
-                    for (cc = 0; cc < w; cc++) {
-                        if (isExposed(cc, rr)) {
+                for (r = 0; r < height; r++) {
+                    for (c = 0; c < width; c++) {
+                        if (isExposed(c, r)) {
                             changed = true;
                         }
                     }
                 }
             }
             ;
-        }
+        }*/
         return numSurroundingMines;
     }
 
