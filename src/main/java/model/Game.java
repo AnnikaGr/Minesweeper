@@ -25,15 +25,21 @@ public class Game {
         return waterAvailable;
     }
 
-    public void setWaterAvailable() {
+    public void increaseWaterAvailable(int maxWells) {
         this.waterAvailable++;
+        if(this.waterAvailable>maxWells){
+            this.waterAvailable=maxWells;
+        }
     }
 
     public int getResearchAvailable() {
         return researchAvailable;
     }
 
-    public void increaseResearchAvailable() {
-        this.researchAvailable++;
+    public void decreaseResearchAvailable() {
+        this.researchAvailable--;
+        if(this.researchAvailable<0){
+            this.researchAvailable=0;
+        }
     }
 }

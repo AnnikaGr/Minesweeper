@@ -26,37 +26,49 @@
             </padding></Button>
          <VBox alignment="CENTER" prefWidth="625.0" spacing="20.0">
             <children>
-               <HBox spacing="15.0">
+               <HBox fx:id="waterBox" spacing="15.0">
                   <children>
-                     <Button mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
+                     <Button mnemonicParsing="false" style="-fx-background-color: #d3d3d3; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
-                           <ImageView fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@images/paint-bucket.png" />
-                              </image>
-                           </ImageView>
-                        </graphic></Button>
-                     <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
-                        <graphic>
-                           <ImageView fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <ImageView fx:id="water1" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                  <Image url="@images/paint-bucket.png" />
                               </image>
                            </ImageView>
                         </graphic>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
+                        <padding>
+                           <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                        </padding></Button>
+                     <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #d3d3d3; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
+                        <graphic>
+                           <ImageView fx:id="water2" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@images/paint-bucket.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                        <padding>
+                           <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                        </padding>
                      </Button>
-                     <Button layoutX="265.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
+                     <Button layoutX="265.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #d3d3d3; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
-                           <ImageView fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <ImageView fx:id="water3" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                               <image>
                                  <Image url="@images/paint-bucket.png" />
                               </image>
                            </ImageView>
                         </graphic>
+                        <padding>
+                           <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                        </padding>
                      </Button>
                   </children>
                </HBox>
-               <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
+               <HBox fx:id="researchBox" layoutX="10.0" layoutY="10.0" spacing="15.0">
                   <children>
                      <Button mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
@@ -66,6 +78,9 @@
                               </image>
                            </ImageView>
                         </graphic>
+                        <padding>
+                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
                      </Button>
                      <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
@@ -75,6 +90,9 @@
                               </image>
                            </ImageView>
                         </graphic>
+                        <padding>
+                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
                      </Button>
                      <Button layoutX="71.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
@@ -84,6 +102,12 @@
                               </image>
                            </ImageView>
                         </graphic>
+                        <padding>
+                           <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        <HBox.margin>
+                           <Insets />
+                        </HBox.margin>
                      </Button>
                   </children>
                   <VBox.margin>

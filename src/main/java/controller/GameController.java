@@ -1,6 +1,7 @@
 package controller;
 
 import com.example.game.Welcome;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,10 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.Board;
@@ -32,6 +30,8 @@ public class GameController  {
     @FXML private Text infoText;
     @FXML private Text buildingCount;
     @FXML private ProgressBar temperatureBar;
+    @FXML private HBox waterBox;
+    @FXML private HBox researchBox;
 
     private Game gameInstance;
 
@@ -68,6 +68,7 @@ public class GameController  {
             numMines = 200;
         }
         else{
+            //numMines = 100;
             numMines = 0;
         }
 
@@ -134,8 +135,21 @@ public class GameController  {
 
                             if(board.grid[row][col].exposed&& board.grid[row][col].hasWell){
                                 System.out.println("Scroll on well");
+                                board.grid[row][col].hasWell = false;
+                                gameInstance.increaseWaterAvailable(numWells);
 
-                                //TODO change in model gameInstance.increaseWaterAvailable();
+                                int waterAvailable = gameInstance.getWaterAvailable();
+                                ObservableList<Node> buttons = waterBox.getChildren();
+                                for (Node button:buttons
+                                ) {
+                                    waterAvailable--;
+                                    if(waterAvailable>=0){
+                                        button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+                                    }
+                                    else {
+                                        button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+                                    }
+                                }
                             }
                     }
 
@@ -152,20 +166,39 @@ public class GameController  {
                 item.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
                     @Override
                     public void handle(MouseDragEvent event) {
-                        Node tmp = (Node)event.getSource();
-                        int row= grid.getRowIndex(tmp);
-                        int col= grid.getColumnIndex(tmp);
-                        Label node = (Label)getNodeFromGridPane(grid, col, row);
-                        tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
-                        delay(1500, () -> tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )") );
-                     //TODO set maximum drag and drop distance
+                        if(gameInstance.getResearchAvailable()<=0){
+                            event.consume();
+                        }
+                        else{
+                            Node tmp = (Node)event.getSource();
+                            int row= grid.getRowIndex(tmp);
+                            int col= grid.getColumnIndex(tmp);
+                            Label node = (Label)getNodeFromGridPane(grid, col, row);
+                            tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                            delay(1500, () -> tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )") );
+                            //TODO set maximum drag and drop distance
+                        }
                     }
                 });
 
                 item.setOnMouseReleased(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        //TODO subtract research available
+                        gameInstance.decreaseResearchAvailable();
+                        int researchAvailable = gameInstance.getResearchAvailable();
+                        ObservableList<Node> buttons = researchBox.getChildren();
+                        for (Node button:buttons
+                             ) {
+                            researchAvailable--;
+                            if(researchAvailable>=0){
+                                button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+                            }
+                            else {
+                                button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+                            }
+
+                        }
+
                     }
                 });
 
