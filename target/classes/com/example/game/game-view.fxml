@@ -28,7 +28,7 @@
             <children>
                <HBox fx:id="waterBox" spacing="15.0">
                   <children>
-                     <Button mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
+                     <Button mnemonicParsing="false" style="-fx-background-color: #d3d3d3; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
                            <ImageView fx:id="water1" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -42,7 +42,7 @@
                         <padding>
                            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                         </padding></Button>
-                     <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
+                     <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #d3d3d3; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
                            <ImageView fx:id="water2" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                               <image>
@@ -54,7 +54,7 @@
                            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                         </padding>
                      </Button>
-                     <Button layoutX="265.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #78BBCF; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
+                     <Button layoutX="265.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #d3d3d3; -fx-border-radius: 50px; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );">
                         <graphic>
                            <ImageView fx:id="water3" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                               <image>

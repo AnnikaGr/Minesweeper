@@ -131,10 +131,8 @@ public class GameController  {
                             Node tmp = (Node)scrollEvent.getSource();
                             int row= grid.getRowIndex(tmp);
                             int col= grid.getColumnIndex(tmp);
-                        System.out.println("Scroll on grid");
 
                             if(board.grid[row][col].exposed&& board.grid[row][col].hasWell){
-                                System.out.println("Scroll on well");
                                 board.grid[row][col].hasWell = false;
                                 gameInstance.increaseWaterAvailable(numWells);
 
@@ -152,8 +150,6 @@ public class GameController  {
                                 }
                             }
                     }
-
-
     });
 
                 item.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -243,11 +239,6 @@ public class GameController  {
             }
         });
 
-        button.setOnScrollStarted(e -> {Button tmp = (Button)e.getSource();
-            tmp.setStyle("-fx-background-color: #DBECFF;");
-            System.out.println("mouse scroll happening");
-        });
-
 
 
         return button ;
@@ -274,10 +265,6 @@ public class GameController  {
         }
 
         //Event Listener
-        label.setOnScroll(e -> {Label tmp = (Label)e.getSource();
-            tmp.setStyle("-fx-background-color: #DBECFF;");
-            System.out.println("mouse scroll happening");
-        });
 
         /*ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream is = getClass().getResourceAsStream("/house.png");
