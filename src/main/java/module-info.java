@@ -2,6 +2,7 @@ module com.example.test {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires java.desktop;
 
     //requires org.controlsfx.controls;
     //requires org.kordamp.ikonli.javafx;

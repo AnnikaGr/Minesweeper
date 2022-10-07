@@ -21,6 +21,10 @@ import model.Board;
 import model.Game;
 import view.GameStatePopup;
 
+import java.io.*;
+import javax.sound.sampled.*;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class GameController  {
@@ -68,11 +72,10 @@ public class GameController  {
             numMines = 200;
         }
         else{
-            //numMines = 100;
-            numMines = 0;
+            numMines = 100;
         }
 
-        int numWells=100;
+        int numWells=3;
 
         // create Model
         Board board = new Board (numRows, numColumns, numMines, numWells);
@@ -192,13 +195,89 @@ public class GameController  {
                             else {
                                 button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
                             }
-
                         }
 
                     }
                 });
 
     });
+
+
+    }
+
+    public boolean detectNoise(int detectionTime){
+        //Audio Detection
+        ByteArrayOutputStream byteArrayOutputStream;
+        TargetDataLine targetDataLine;
+        int cnt;
+        boolean stopCapture = false;
+        byte tempBuffer[] = new byte[1024*4];
+        int countzero, countdownTimer;
+        short convert[] = new short[tempBuffer.length];
+
+
+
+        try {
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            stopCapture = false;
+            countdownTimer = 0;
+            while (countdownTimer<detectionTime) {
+                AudioFormat audioFormat = new AudioFormat(8000.0F, 16, 1, true, false);
+                DataLine.Info dataLineInfo = new DataLine.Info(TargetDataLine.class, audioFormat);
+                targetDataLine = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
+                targetDataLine.open(audioFormat);
+                targetDataLine.start();
+                cnt = targetDataLine.read(tempBuffer, 0, tempBuffer.length);
+                byteArrayOutputStream.write(tempBuffer, 0, cnt);
+
+                int level = 0;
+                if (targetDataLine.read(tempBuffer, 0, tempBuffer.length) > 0) {
+                    level = calculateRMSLevel(tempBuffer);
+                    if (level > 50 ){
+                        return true;
+                    }
+                }
+
+                try {
+                    countzero = 0;
+                    for (int i = 0; i < tempBuffer.length; i++) {
+                        convert[i] = tempBuffer[i];
+                        if (convert[i] == 0) {
+                            countzero++;
+                        }
+                    }
+
+                    countdownTimer++;
+                    System.out.println(countzero + " " + countdownTimer + " Level "+ level);
+
+                } catch (StringIndexOutOfBoundsException e) {
+                    System.out.println(e.getMessage());
+                }
+                Thread.sleep(0);
+                targetDataLine.close();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return false;
+    }
+
+    public int calculateRMSLevel(byte[] audioData)
+    {
+        long lSum = 0;
+        for(int i=0; i < audioData.length; i++)
+            lSum = lSum + audioData[i];
+
+        double dAvg = lSum / audioData.length;
+        double sumMeanSquare = 0d;
+
+        for(int j=0; j < audioData.length; j++)
+            sumMeanSquare += Math.pow(audioData[j] - dAvg, 2d);
+
+        double averageMeanSquare = sumMeanSquare / audioData.length;
+
+        return (int)(Math.pow(averageMeanSquare,0.5d) + 0.5);
     }
 
 
@@ -234,6 +313,11 @@ public class GameController  {
                     Button tmp = (Button)mouseEvent.getSource();
                     tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
                     int status = board.expose(grid.getColumnIndex(tmp), grid.getRowIndex(tmp));
+                    if(status == -1 && gameInstance.getWaterAvailable()>0){
+                        if(detectNoise(5)){
+                            tmp.setStyle("-fx-background-color: #0000FF; -fx-border-color: #FFFFFF;");
+                        };
+                    }
                     handleGameState(status);
                 }
             }
