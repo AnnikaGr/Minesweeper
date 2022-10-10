@@ -303,17 +303,21 @@ public class GameController  {
                 }
                 else if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
                     Button currentField = (Button)mouseEvent.getSource();
-                    currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
-                    int status = board.expose(grid.getColumnIndex(currentField), grid.getRowIndex(currentField));
-                    if(status == -1 && gameInstance.getWaterAvailable()>0){
-                        //View
-                        GameStatePopup popup= new GameStatePopup("Oh no! You built on peatland!",
-                                " Fortunately you collected water before. Quickly blow in your mic to use it to restore the area and cool down the planet!", false,
-                                "");
-                        popup.getPopup().show(Welcome.getPrimaryStage());
-                        delay(3000, () -> startBlowingInteraction(popup, currentField));
+                    int row= grid.getRowIndex(currentField);
+                    int col= grid.getColumnIndex(currentField);
+                    if(!board.grid[row][col].exposed&& !board.grid[row][col].mineExposed){
+                        currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                        int status = board.expose(col, row);
+                        if(status == -1 && gameInstance.getWaterAvailable()>0){
+                            //View
+                            GameStatePopup popup= new GameStatePopup("Oh no! You built on peatland!",
+                                    " Fortunately you collected water before. Quickly blow in your mic to use it to restore the area and cool down the planet!", false,
+                                    "");
+                            popup.getPopup().show(Welcome.getPrimaryStage());
+                            delay(3000, () -> startBlowingInteraction(popup, currentField));
+                        }
+                        handleGameState(status);
                     }
-                    handleGameState(status);
                 }
 
                 //TODO handle drag
