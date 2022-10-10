@@ -2,6 +2,7 @@ package model;
 
 public class Cell {
     public boolean hasMine;
+    public boolean mineExposed;
     public boolean hasWater;
     public boolean hasWell;
     public boolean exposed;            // Has the cell been exposed (may or may not have mine)?

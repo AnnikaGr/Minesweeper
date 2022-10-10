@@ -116,6 +116,7 @@ public class Board {
 
         if (cell.hasMine) {
             numBombsHit= numBombsHit+1;
+            cell.mineExposed=true;
             if(numBombsHit>=3){
                 lost=true;
                 return -3;

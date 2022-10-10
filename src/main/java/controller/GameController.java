@@ -290,6 +290,9 @@ public class GameController  {
                     Button tmp = (Button)mouseEvent.getSource();
                     int row= grid.getRowIndex(tmp);
                     int col= grid.getColumnIndex(tmp);
+                    if(board.grid[row][col].exposed || board.grid[row][col].mineExposed){
+                        return;
+                    }
                     if(!board.grid[row][col].marked){
                         tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #D94D3C; -fx-border-width: 3px;");
                     }
@@ -310,7 +313,6 @@ public class GameController  {
                         popup.getPopup().show(Welcome.getPrimaryStage());
                         delay(3000, () -> startBlowingInteraction(popup, currentField));
                     }
-
                     handleGameState(status);
                 }
 
