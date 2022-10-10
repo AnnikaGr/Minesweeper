@@ -119,13 +119,13 @@
                <Insets left="100.0" right="-180.0" />
             </HBox.margin>
          </VBox>
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00">
+         <Text fx:id="timer" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
             <font>
                <Font name="Bauhaus 93" size="64.0" />
             </font>
          </Text>
-         <Region maxHeight="19.0" prefHeight="19.0" prefWidth="454.0" />
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="buildings">
+         <Region maxHeight="19.0" prefHeight="19.0" prefWidth="450.0" />
+         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="built infrastructure">
             <font>
                <Font name="Bauhaus 93" size="36.0" />
             </font>

@@ -1,6 +1,7 @@
 package controller;
 
 import com.example.game.Welcome;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -26,6 +27,8 @@ import javax.sound.sampled.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameController  {
     @FXML private GridPane grid;
@@ -36,6 +39,7 @@ public class GameController  {
     @FXML private ProgressBar temperatureBar;
     @FXML private HBox waterBox;
     @FXML private HBox researchBox;
+    @FXML private Text timer;
 
     private Game gameInstance;
 
@@ -276,6 +280,12 @@ public class GameController  {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                //start timer on game start
+                if (!board.isTimerSet) {
+                    setTimer();
+                    board.isTimerSet = true;
+                }
+
                 if(mouseEvent.getButton().equals(MouseButton.SECONDARY)){
                     Button tmp = (Button)mouseEvent.getSource();
                     int row= grid.getRowIndex(tmp);
@@ -303,6 +313,8 @@ public class GameController  {
 
                     handleGameState(status);
                 }
+
+                //TODO handle drag
             }
         });
         return button ;
@@ -413,6 +425,7 @@ public class GameController  {
     // -- navigation methods ----------------------------------------------------------------------------------
 
     private void returnToWelcome(){
+        restartTime();
         Parent newRoot = null;
         try {
             newRoot = FXMLLoader.load(Welcome.class.getResource("welcome-view.fxml"));
@@ -487,6 +500,53 @@ public class GameController  {
     private void decreaseTemperatureBar(){
         double old = temperatureBar.getProgress();
         temperatureBar.setProgress(old-0.25);
+    }
+
+    // -- timer -----------------------------------------------------------------------------------------
+
+    public void setTimer() {
+
+        Board.timer = new Timer();
+        TimerTask task = new TimerTask() {
+            int i = 0;
+
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        timer.setText(i + "");
+                        i++;
+                    }
+                });
+            }
+        };
+
+        Board.timer.schedule(task, 0, 1000);
+    }
+
+    public void restartTime() {
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if (Board.isTimerSet) {
+                    Board.timer.cancel();
+                    Board.isTimerSet = false;
+                    timer.setText("0");
+                }
+            }
+        });
+    }
+
+    public void stopTime() {
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if (Board.isTimerSet) {
+                    Board.timer.cancel();
+                    Board.isTimerSet = false;
+                }
+            }
+        });
     }
 
 

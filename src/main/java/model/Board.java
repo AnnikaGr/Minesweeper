@@ -19,6 +19,7 @@ public class Board {
     public boolean isMineFieldSet;
     public Cell[][] grid;
 
+    // with inspiration from https://github.com/dmaida/MineSweeper
     public Board (int numRow, int numCol, int numMines, int numWells) {
 
         int w = numCol;
@@ -176,5 +177,9 @@ public class Board {
     public int unexposedCount() {
         int unexposedCounter = (totalCells - numExposedCells - numbMines);
         return unexposedCounter;
+    }
+
+    public int exposedCount(){
+        return numExposedCells;
     }
 }
