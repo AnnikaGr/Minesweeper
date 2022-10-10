@@ -24,22 +24,6 @@ public class Board {
         int w = numCol;
         int h = numRow;
 
-//        if (level == 1) {
-//            h = 9;
-//            w = 9;
-//            numbMines = 10;
-//        }
-//        if (level == 2) {
-//            h = 16;
-//            w = 16;
-//            numbMines = 40;
-//        }
-//        if (level == 3) {
-//            h = 16;
-//            w = 30;
-//            numbMines = 99;
-//        }
-
         height = h;
         width = w;
 

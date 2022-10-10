@@ -32,6 +32,13 @@ public class Game {
         }
     }
 
+    public void decreaseWaterAvailable(){
+        this.waterAvailable--;
+        if (this.waterAvailable<0){
+            throw new IllegalStateException("Number of available water is in minus");
+        }
+    }
+
     public int getResearchAvailable() {
         return researchAvailable;
     }

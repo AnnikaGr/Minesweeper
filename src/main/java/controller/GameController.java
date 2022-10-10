@@ -75,7 +75,7 @@ public class GameController  {
             numMines = 100;
         }
 
-        int numWells=3;
+        int numWells=100;
 
         // create Model
         Board board = new Board (numRows, numColumns, numMines, numWells);
@@ -138,19 +138,7 @@ public class GameController  {
                             if(board.grid[row][col].exposed&& board.grid[row][col].hasWell){
                                 board.grid[row][col].hasWell = false;
                                 gameInstance.increaseWaterAvailable(numWells);
-
-                                int waterAvailable = gameInstance.getWaterAvailable();
-                                ObservableList<Node> buttons = waterBox.getChildren();
-                                for (Node button:buttons
-                                ) {
-                                    waterAvailable--;
-                                    if(waterAvailable>=0){
-                                        button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
-                                    }
-                                    else {
-                                        button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
-                                    }
-                                }
+                                updateWaterAvailableBar();
                             }
                     }
     });
@@ -184,18 +172,7 @@ public class GameController  {
                     @Override
                     public void handle(MouseEvent event) {
                         gameInstance.decreaseResearchAvailable();
-                        int researchAvailable = gameInstance.getResearchAvailable();
-                        ObservableList<Node> buttons = researchBox.getChildren();
-                        for (Node button:buttons
-                             ) {
-                            researchAvailable--;
-                            if(researchAvailable>=0){
-                                button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
-                            }
-                            else {
-                                button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
-                            }
-                        }
+                        updateResearchAvailableBar();
 
                     }
                 });
@@ -206,11 +183,11 @@ public class GameController  {
     }
 
     public boolean detectNoise(int detectionTime){
+
         //Audio Detection
         ByteArrayOutputStream byteArrayOutputStream;
         TargetDataLine targetDataLine;
         int cnt;
-        boolean stopCapture = false;
         byte tempBuffer[] = new byte[1024*4];
         int countzero, countdownTimer;
         short convert[] = new short[tempBuffer.length];
@@ -219,7 +196,6 @@ public class GameController  {
 
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
-            stopCapture = false;
             countdownTimer = 0;
             while (countdownTimer<detectionTime) {
                 AudioFormat audioFormat = new AudioFormat(8000.0F, 16, 1, true, false);
@@ -233,7 +209,9 @@ public class GameController  {
                 int level = 0;
                 if (targetDataLine.read(tempBuffer, 0, tempBuffer.length) > 0) {
                     level = calculateRMSLevel(tempBuffer);
-                    if (level > 50 ){
+                    if (level > 40 ){
+                        Thread.sleep(0);
+                        targetDataLine.close();
                         return true;
                     }
                 }
@@ -248,6 +226,7 @@ public class GameController  {
                     }
 
                     countdownTimer++;
+
                     System.out.println(countzero + " " + countdownTimer + " Level "+ level);
 
                 } catch (StringIndexOutOfBoundsException e) {
@@ -310,22 +289,43 @@ public class GameController  {
                     board.mark(col, row);
                 }
                 else if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-                    Button tmp = (Button)mouseEvent.getSource();
-                    tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
-                    int status = board.expose(grid.getColumnIndex(tmp), grid.getRowIndex(tmp));
+                    Button currentField = (Button)mouseEvent.getSource();
+                    currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                    int status = board.expose(grid.getColumnIndex(currentField), grid.getRowIndex(currentField));
                     if(status == -1 && gameInstance.getWaterAvailable()>0){
-                        if(detectNoise(5)){
-                            tmp.setStyle("-fx-background-color: #0000FF; -fx-border-color: #FFFFFF;");
-                        };
+                        //View
+                        GameStatePopup popup= new GameStatePopup("Oh no! You built on peatland!",
+                                " Fortunately you collected water before. Quickly blow in your mic to use it to restore the area and cool down the planet!", false,
+                                "");
+                        popup.getPopup().show(Welcome.getPrimaryStage());
+                        delay(3000, () -> startBlowingInteraction(popup, currentField));
                     }
+
                     handleGameState(status);
                 }
             }
         });
-
-
-
         return button ;
+    }
+
+    private void startBlowingInteraction(GameStatePopup popup, Button currentField){
+        if(detectNoise(5)){
+                            popup.setTitle("Great! You restored the peatland using 1 water!");
+                            popup.setSubtitle("");
+                            delay(1500, () -> popup.getPopup().hide());
+                            currentField.setStyle("-fx-background-color: #975C4E; -fx-border-color: #FFFFFF;");
+                            gameInstance.decreaseWaterAvailable();
+                            board.grid[grid.getRowIndex(currentField)][grid.getColumnIndex(currentField)].hasMine = false;
+                            board.numBombsHit= board.numBombsHit-1;
+                            updateWaterAvailableBar();
+                            decreaseTemperatureBar();
+                        }
+                        else{
+                            popup.setTitle("Oh no! You didn´t blow enough to restore this peatland!");
+                            popup.setSubtitle("");
+                            delay(1500, () -> popup.getPopup().hide());
+                        }
+
     }
 
     private Label createCellContent(String text){
@@ -367,9 +367,8 @@ public class GameController  {
         else if(status ==-3){
             increaseTemperatureBar();
             GameStatePopup popup= new GameStatePopup("Oh no!",
-                    "You disrespected too many peatlands during the construction of your planet. It cannot keep the balance like that.",
+                    "You disrespected too many peatlands during the construction of your planet. It cannot keep the balance like that.", true,
                     "Try again");
-            popup.getPopup().centerOnScreen();
 
             // Event handler
             Button tryAgain= popup.getTryAgainButton();
@@ -387,7 +386,7 @@ public class GameController  {
         else if(status ==-4){
 
             GameStatePopup popup= new GameStatePopup("Congratulations!",
-                    "You successfully managed our planet accommodating everybody while keeping its balance.",
+                    "You successfully managed our planet accommodating everybody while keeping its balance.",true,
                     "Play again");
             popup.getPopup().centerOnScreen();
 
@@ -410,10 +409,8 @@ public class GameController  {
 
     }
 
-    private void increaseTemperatureBar(){
-        double old = temperatureBar.getProgress();
-        temperatureBar.setProgress(old+0.25);
-    }
+
+    // -- navigation methods ----------------------------------------------------------------------------------
 
     private void returnToWelcome(){
         Parent newRoot = null;
@@ -435,6 +432,7 @@ public class GameController  {
         }
 
 
+    // --helper methods--------------------------------------------------------------------------------------------
     // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
     public static void delay(long millis, Runnable continuation) {
         Task<Void> sleeper = new Task<Void>() {
@@ -447,6 +445,48 @@ public class GameController  {
         };
         sleeper.setOnSucceeded(event -> continuation.run());
         new Thread(sleeper).start();
+    }
+
+
+    // --updating view methods------------------------------------------------------------------------------------
+    public void updateResearchAvailableBar(){
+        int researchAvailable = gameInstance.getResearchAvailable();
+        ObservableList<Node> buttons = researchBox.getChildren();
+        for (Node button:buttons
+        ) {
+            researchAvailable--;
+            if(researchAvailable>=0){
+                button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+            }
+            else {
+                button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+            }
+        }
+    }
+
+    public void updateWaterAvailableBar(){
+        int waterAvailable = gameInstance.getWaterAvailable();
+        ObservableList<Node> buttons = waterBox.getChildren();
+        for (Node button:buttons
+        ) {
+            waterAvailable--;
+            if(waterAvailable>=0){
+                button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+            }
+            else {
+                button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+            }
+        }
+    }
+
+    private void increaseTemperatureBar(){
+        double old = temperatureBar.getProgress();
+        temperatureBar.setProgress(old+0.25);
+    }
+
+    private void decreaseTemperatureBar(){
+        double old = temperatureBar.getProgress();
+        temperatureBar.setProgress(old-0.25);
     }
 
 

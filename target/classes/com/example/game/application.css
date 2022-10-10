@@ -3,9 +3,11 @@ Icons:
 https://thenounproject.com/icon/bucket-5195336/
 https://thenounproject.com/icon/search-1594159/
 
+-fx-background: "#975C4E";
 */
 .background {
     -fx-background-image:url('./images/page_background.jpg');
+
 }
 
 .progress-bar .bar {
