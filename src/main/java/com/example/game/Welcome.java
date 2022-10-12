@@ -81,7 +81,8 @@ public class Welcome extends Application {
             Parent newRoot = null;
 
                 FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
-                RadioButton selectedPlanetSize = (RadioButton) togglePlanetSize.getSelectedToggle();
+
+            RadioButton selectedPlanetSize = (RadioButton) togglePlanetSize.getSelectedToggle();
                 RadioButton selectedClimateRelevantSize = (RadioButton)toggleClimateRelevantSize.getSelectedToggle();
                 if(selectedPlanetSize ==null || selectedClimateRelevantSize== null){
                     errorText.setText("Please choose the size of the planet and its climate relevant areas.");

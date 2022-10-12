@@ -108,9 +108,13 @@ public class Board {
     }
 
     public int expose(int column, int row) {
+        if(column>= width || row >= height || column<0||row<0){
+            return -6; //reached field edge
+        }
+
         Cell cell = grid[row][column];
 
-        if(unexposedCount()==1){
+        if(unexposedCount()==1){//game won
             return -4;
         }
 
@@ -119,41 +123,33 @@ public class Board {
             cell.mineExposed=true;
             if(numBombsHit>=3){
                 lost=true;
-                return -3;
+                return -3; //game lost
             }
-            return -1;
+            return -1; //bomb hit
         }
 
         if (cell.exposed)
-            return -2;
+            return -2; //cell already exposed
 
         cell.exposed = true;
         numExposedCells++;
 
-        int numSurroundingMines = cell.numSurroundingMines;
-
-        /*if (numSurroundingMines == 0) {
-            int width = this.width, height = this.height;
-            boolean changed = true;
-            while (changed) {
-                int r, c;
-                changed = false;
-                for (r = 0; r < height; r++) {
-                    for (c = 0; c < width; c++) {
-                        if (isExposed(c, r)) {
-                            changed = true;
-                        }
-                    }
-                }
-            }
-            ;
-        }*/
-        return numSurroundingMines;
+        return cell.numSurroundingMines;
     }
 
     public boolean isExposed(int column, int row) {
+        if(column>= width || row >= height || column<0||row<0){
+            return false;
+        }
+
         Cell cell = grid[row][column];
-        if (!cell.exposed && !cell.hasMine) {
+        if(cell.exposed || cell.mineExposed){
+            return true;
+        }
+        else{
+             return false;
+        }
+        /*if (!cell.exposed && !cell.hasMine) {
             int w = width, h = height;
             int i, j;
             for (j = -1; j <= +1; j++) {
@@ -172,7 +168,7 @@ public class Board {
                 }
             }
         }
-        return false;
+        return false;*/
     }
 
     public int unexposedCount() {

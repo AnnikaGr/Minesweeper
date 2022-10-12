@@ -27,6 +27,7 @@ import javax.sound.sampled.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -64,10 +65,8 @@ public class GameController  {
             numColumns = 26 ;
         }
         else{
-//            numRows = 10 ;
-//            numColumns = 19 ;
-            numRows = 2 ;
-            numColumns = 2 ;
+            numRows = 10 ;
+            numColumns = 19 ;
         }
 
         //set climate relevant area size = number of mines
@@ -79,7 +78,7 @@ public class GameController  {
             numMines = 100;
         }
 
-        int numWells=100;
+        int numWells=3;
 
         // create Model
         Board board = new Board (numRows, numColumns, numMines, numWells);
@@ -164,7 +163,7 @@ public class GameController  {
                             Node tmp = (Node)event.getSource();
                             int row= grid.getRowIndex(tmp);
                             int col= grid.getColumnIndex(tmp);
-                            Label node = (Label)getNodeFromGridPane(grid, col, row);
+                            Label node = (Label)getNodeFromGridPane(grid, col, row, "Label");
                             tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
                             delay(1500, () -> tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )") );
                             //TODO set maximum drag and drop distance
@@ -306,6 +305,7 @@ public class GameController  {
                     int row= grid.getRowIndex(currentField);
                     int col= grid.getColumnIndex(currentField);
                     if(!board.grid[row][col].exposed&& !board.grid[row][col].mineExposed){
+                        //uncoverField(currentField);
                         currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
                         int status = board.expose(col, row);
                         if(status == -1 && gameInstance.getWaterAvailable()>0){
@@ -316,7 +316,7 @@ public class GameController  {
                             popup.getPopup().show(Welcome.getPrimaryStage());
                             delay(3000, () -> startBlowingInteraction(popup, currentField));
                         }
-                        handleGameState(status);
+                        handleGameState(status, row, col);
                     }
                 }
 
@@ -378,11 +378,11 @@ public class GameController  {
         return label;
     }
 
-    private void handleGameState (int status){
-        if (status==-1) { // game over, exposed mine
+    private void handleGameState (int status, int row, int col){
+        if (status==-1) { // mine uncovered but game not lost yet
             increaseTemperatureBar();
         }
-        else if(status ==-3){
+        else if(status ==-3){ // mine uncovered and game lost
             increaseTemperatureBar();
             GameStatePopup popup= new GameStatePopup("Oh no!",
                     "You disrespected too many peatlands during the construction of your planet. It cannot keep the balance like that.", true,
@@ -401,7 +401,7 @@ public class GameController  {
             popup.getPopup().show(Welcome.getPrimaryStage());
 
         }
-        else if(status ==-4){
+        else if(status ==-4){ //game won
 
             GameStatePopup popup= new GameStatePopup("Congratulations!",
                     "You successfully managed our planet accommodating everybody while keeping its balance.",true,
@@ -421,10 +421,82 @@ public class GameController  {
             popup.getPopup().show(Welcome.getPrimaryStage());
 
         }
+        else if (status==0){ //no surrounding bombs on this cell
+                exposeSurroundings( col, row);
+        }
         else {
             buildingCount.setText(Integer.toString(board.numExposedCells));
         }
 
+    }
+
+    private boolean exposeSurroundings(int col, int row){
+        System.out.println("Row: "+ row + "Column: "+ col);
+        if(!board.isExposed(col-1, row)){
+            int status= board.expose(col-1, row);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col-1, row);
+            }
+        }
+        if(!board.isExposed(col, row-1)){
+            int status=board.expose(col, row-1);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col, row-1);
+            }
+        }
+        if(!board.isExposed(col+1, row)){
+            int status=board.expose(col+1, row);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col+1, row);
+            }
+        }
+        if(!board.isExposed(col, row+1)){
+            int status=board.expose(col, row+1);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col, row+1);
+            }
+        }
+        if(!board.isExposed(col+1, row+1)){
+            int status=board.expose(col+1, row+1);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col+1, row+1);
+            }
+        }
+        if(!board.isExposed(col-1, row-1)){
+            int status=board.expose(col-1, row-1);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row,"Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col-1, row-1);
+            }
+        }
+        if(!board.isExposed(col+1, row-1)){
+            int status=board.expose(col+1, row-1);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row,"Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col+1, row-1);
+            }
+        }
+        if(!board.isExposed(col-1, row+1)){
+            int status= board.expose(col-1, row+1);
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row,"Button");
+            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            if(status==0){
+                exposeSurroundings(col-1, row+1);
+            }
+        }
+        return true;
     }
 
 
@@ -441,10 +513,25 @@ public class GameController  {
         Welcome.getPrimaryStage().getScene().setRoot(newRoot);
     }
 
-        private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        private Node getNodeFromGridPane(GridPane gridPane, int col, int row, String type) {
             for (Node node : gridPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                    return node;
+                    if(type.equals("Label")){
+                        if(node instanceof Label){
+                            return node;
+                        }
+
+                    }
+                    else if (type.equals("Button")){
+                        if(node instanceof Button){
+                            return node;
+                        }
+
+                    }
+                    else{
+                        throw new IllegalArgumentException("No child of specified type found in grid cell");
+                    }
+
                 }
             }
             return null;
