@@ -64,7 +64,7 @@ public class Board {
                 if (g < p) {
                     if(!grid[row][col].hasMine){
                         grid[row][col].hasWell = true;
-                        numMines--;
+                        numWells--;
                     }
                 }
                 totalCells--;

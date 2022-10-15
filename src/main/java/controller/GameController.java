@@ -22,12 +22,10 @@ import model.Board;
 import model.Game;
 import view.GameStatePopup;
 
-import java.io.*;
 import javax.sound.sampled.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,10 +70,10 @@ public class GameController  {
         //set climate relevant area size = number of mines
         int numMines=100;
         if ( gameInstance.isProtectedBig()){
-            numMines = 200;
+            numMines = 0;
         }
         else{
-            numMines = 100;
+            numMines = 50;
         }
 
         int numWells=3;
@@ -140,6 +138,7 @@ public class GameController  {
 
                             if(board.grid[row][col].exposed&& board.grid[row][col].hasWell){
                                 board.grid[row][col].hasWell = false;
+                                updateNodeViewAsEmptyWell(tmp);
                                 gameInstance.increaseWaterAvailable(numWells);
                                 updateWaterAvailableBar();
                             }
@@ -431,67 +430,84 @@ public class GameController  {
     }
 
     private boolean exposeSurroundings(int col, int row){
+        //TODO handle b
         System.out.println("Row: "+ row + "Column: "+ col);
         if(!board.isExposed(col-1, row)){
             int status= board.expose(col-1, row);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col-1, row, "Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col-1, row);
             }
         }
         if(!board.isExposed(col, row-1)){
             int status=board.expose(col, row-1);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row-1, "Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col, row-1);
             }
         }
         if(!board.isExposed(col+1, row)){
             int status=board.expose(col+1, row);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col+1, row, "Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col+1, row);
             }
         }
         if(!board.isExposed(col, row+1)){
             int status=board.expose(col, row+1);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col, row+1, "Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col, row+1);
             }
         }
         if(!board.isExposed(col+1, row+1)){
             int status=board.expose(col+1, row+1);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row, "Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col+1, row+1, "Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col+1, row+1);
             }
         }
         if(!board.isExposed(col-1, row-1)){
             int status=board.expose(col-1, row-1);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row,"Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col-1, row-1,"Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col-1, row-1);
             }
         }
         if(!board.isExposed(col+1, row-1)){
             int status=board.expose(col+1, row-1);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row,"Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col+1, row-1,"Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col+1, row-1);
             }
         }
         if(!board.isExposed(col-1, row+1)){
             int status= board.expose(col-1, row+1);
-            Button currentField = (Button) getNodeFromGridPane(grid, col, row,"Button");
-            currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            Button currentField = (Button) getNodeFromGridPane(grid, col-1, row+1,"Button");
+            if(currentField!=null){
+                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+            }
             if(status==0){
                 exposeSurroundings(col-1, row+1);
             }
@@ -641,6 +657,11 @@ public class GameController  {
             }
         });
     }
+
+    // -- update view with empty well --------------------------------------------------------------------------
+    private void updateNodeViewAsEmptyWell(Node tmp){
+        tmp.setStyle("-fx-background-color: #4682B4; -fx-border-color: #FFFFFF;");
+    };
 
 
 }
