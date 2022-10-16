@@ -41,6 +41,7 @@ public class GameController  {
     @FXML private Text timer;
 
     private Game gameInstance;
+    private long dragStarted;
 
     public GameController(Game model) {
         // ensure model is only set once:
@@ -149,13 +150,14 @@ public class GameController  {
                     @Override
                     public void handle(MouseEvent event) {
                         item.startFullDrag();
+                        dragStarted=System.currentTimeMillis();
                     }
                 });
 
                 item.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
                     @Override
                     public void handle(MouseDragEvent event) {
-                        if(gameInstance.getResearchAvailable()<=0){
+                        if(gameInstance.getResearchAvailable()<=0 || System.currentTimeMillis()-dragStarted>1000){
                             event.consume();
                         }
                         else{
@@ -163,7 +165,6 @@ public class GameController  {
                             int row= grid.getRowIndex(tmp);
                             int col= grid.getColumnIndex(tmp);
 
-                            long researchTimedOut= System.currentTimeMillis();
                             Label node = (Label)getNodeFromGridPane(grid, col, row, "Label");
                             updateNodeAsUncovered(tmp);
                             delay(1500, () -> updateNodeAsUncoveredButton(tmp) );
@@ -195,8 +196,6 @@ public class GameController  {
         byte tempBuffer[] = new byte[1024*4];
         int countzero, countdownTimer;
         short convert[] = new short[tempBuffer.length];
-
-
 
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
@@ -231,8 +230,6 @@ public class GameController  {
 
                     countdownTimer++;
 
-                    System.out.println(countzero + " " + countdownTimer + " Level "+ level);
-
                 } catch (StringIndexOutOfBoundsException e) {
                     System.out.println(e.getMessage());
                 }
@@ -245,7 +242,7 @@ public class GameController  {
 
         return false;
     }
-
+    // --- https://stackoverflow.com/questions/3899585/microphone-level-in-java
     public int calculateRMSLevel(byte[] audioData)
     {
         long lSum = 0;
@@ -304,7 +301,7 @@ public class GameController  {
                     int col= grid.getColumnIndex(currentField);
                     if(!board.grid[row][col].exposed&& !board.grid[row][col].mineExposed){
                         //uncoverField(currentField);
-                        currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                        updateNodeAsUncovered(currentField);
                         int status = board.expose(col, row);
                         if(status == -1 && gameInstance.getWaterAvailable()>0){
                             //View
@@ -429,13 +426,11 @@ public class GameController  {
     }
 
     private boolean exposeSurroundings(int col, int row){
-        //TODO handle b
-        System.out.println("Row: "+ row + "Column: "+ col);
         if(!board.isExposed(col-1, row)){
             int status= board.expose(col-1, row);
             Button currentField = (Button) getNodeFromGridPane(grid, col-1, row, "Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col-1, row);
@@ -445,7 +440,7 @@ public class GameController  {
             int status=board.expose(col, row-1);
             Button currentField = (Button) getNodeFromGridPane(grid, col, row-1, "Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col, row-1);
@@ -455,7 +450,7 @@ public class GameController  {
             int status=board.expose(col+1, row);
             Button currentField = (Button) getNodeFromGridPane(grid, col+1, row, "Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col+1, row);
@@ -465,7 +460,7 @@ public class GameController  {
             int status=board.expose(col, row+1);
             Button currentField = (Button) getNodeFromGridPane(grid, col, row+1, "Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col, row+1);
@@ -475,7 +470,7 @@ public class GameController  {
             int status=board.expose(col+1, row+1);
             Button currentField = (Button) getNodeFromGridPane(grid, col+1, row+1, "Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col+1, row+1);
@@ -485,7 +480,7 @@ public class GameController  {
             int status=board.expose(col-1, row-1);
             Button currentField = (Button) getNodeFromGridPane(grid, col-1, row-1,"Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col-1, row-1);
@@ -495,7 +490,7 @@ public class GameController  {
             int status=board.expose(col+1, row-1);
             Button currentField = (Button) getNodeFromGridPane(grid, col+1, row-1,"Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col+1, row-1);
@@ -505,7 +500,7 @@ public class GameController  {
             int status= board.expose(col-1, row+1);
             Button currentField = (Button) getNodeFromGridPane(grid, col-1, row+1,"Button");
             if(currentField!=null){
-                currentField.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                updateNodeAsUncovered(currentField);
             }
             if(status==0){
                 exposeSurroundings(col-1, row+1);
