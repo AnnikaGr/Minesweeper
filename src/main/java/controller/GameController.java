@@ -162,17 +162,19 @@ public class GameController  {
                             Node tmp = (Node)event.getSource();
                             int row= grid.getRowIndex(tmp);
                             int col= grid.getColumnIndex(tmp);
+
+                            long researchTimedOut= System.currentTimeMillis();
                             Label node = (Label)getNodeFromGridPane(grid, col, row, "Label");
-                            tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
-                            delay(1500, () -> tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )") );
-                            //TODO set maximum drag and drop distance
+                            updateNodeAsUncovered(tmp);
+                            delay(1500, () -> updateNodeAsUncoveredButton(tmp) );
+
                         }
                     }
                 });
 
-                item.setOnMouseReleased(new EventHandler<MouseEvent>() {
+                item.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
                     @Override
-                    public void handle(MouseEvent event) {
+                    public void handle(MouseDragEvent event) {
                         gameInstance.decreaseResearchAvailable();
                         updateResearchAvailableBar();
 
@@ -264,15 +266,12 @@ public class GameController  {
 
     private Button createButton(String text) {
         Button button = new Button(text);
-        button.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )");
-
-        //button.setStyle(" ");
-
+        updateNodeAsUncoveredButton(button);
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         //Event Listeners
         button.setOnMouseClicked(e -> {Button tmp = (Button)e.getSource();
-            tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");});
+            updateNodeAsUncovered(tmp);});
 
         // -- with help from https://stackoverflow.com/questions/34171841/javafx-minesweeper-how-to-tell-between-right-and-left-mouse-button-input
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -292,10 +291,10 @@ public class GameController  {
                         return;
                     }
                     if(!board.grid[row][col].marked){
-                        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #D94D3C; -fx-border-width: 3px;");
+                        updateNodeAsNonMarked(tmp);
                     }
                     else{
-                        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF;");
+                        updateNodeAsMarked(tmp);
                     }
                     board.mark(col, row);
                 }
@@ -658,10 +657,25 @@ public class GameController  {
         });
     }
 
-    // -- update view with empty well --------------------------------------------------------------------------
+    // -- update cell views --------------------------------------------------------------------------
     private void updateNodeViewAsEmptyWell(Node tmp){
         tmp.setStyle("-fx-background-color: #4682B4; -fx-border-color: #FFFFFF;");
     };
 
+    private void updateNodeAsUncovered(Node tmp){
+        tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+    }
+
+    private void updateNodeAsNonMarked(Node tmp){
+        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #D94D3C; -fx-border-width: 3px;");
+    }
+
+    private void updateNodeAsMarked(Node tmp){
+        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF;");
+    }
+
+    private void updateNodeAsUncoveredButton (Node tmp){
+        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )");
+    }
 
 }
