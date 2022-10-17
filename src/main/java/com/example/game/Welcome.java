@@ -96,12 +96,6 @@ public class Welcome extends Application {
                         ex.printStackTrace();
                     }
                 }
-
-
-
         });
     }
-
-
-
 }
