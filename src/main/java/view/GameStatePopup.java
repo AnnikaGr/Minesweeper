@@ -1,15 +1,13 @@
 package view;
 
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
-import static com.example.game.Welcome.getPrimaryStage;
+import static com.example.game.Main.getPrimaryStage;
 
 public class GameStatePopup {
 
@@ -18,38 +16,38 @@ public class GameStatePopup {
     private Text title;
     private Text subtitle;
 
-    public GameStatePopup(String titleText, String subtitleText, boolean setButton, String buttonText){
+    public GameStatePopup(String titleText, String subtitleText, boolean setButton, String buttonText) {
         this.popup = new Popup();
-        VBox vbox= new VBox();
+        VBox vbox = new VBox();
         vbox.setSpacing(10);
         vbox.setAlignment(Pos.CENTER);
-        vbox.setFillWidth(true);
+        vbox.setPrefWidth(1240);
+        vbox.setPrefHeight(400);
         vbox.prefWidthProperty().bind(getPrimaryStage().getScene().widthProperty());
         vbox.prefHeightProperty().bind(getPrimaryStage().getScene().heightProperty());
 
         Button tryAgain = new Button();
-        this.tryAgain=tryAgain;
+        this.tryAgain = tryAgain;
         tryAgain.setFont(Font.font("Bauhaus 93", 36));
         tryAgain.setStyle("-fx-text-fill:#FFFFFF; -fx-background-color:  #975C4E; -fx-effect:  dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 )");
         tryAgain.setText(buttonText);
 
 
-        Text title= new Text();
+        Text title = new Text();
         title.setStyle("-fx-fill:#FFFFFF");
         title.setFont(Font.font("Bauhaus 93", 36));
         title.setText(titleText);
-        this.title=title;
+        this.title = title;
 
         Text subtitle = new Text();
         subtitle.setFont(Font.font("Bauhaus 93", 24));
         subtitle.setStyle("-fx-fill:#FFFFFF");
         subtitle.setText(subtitleText);
-        this.subtitle=subtitle;
+        this.subtitle = subtitle;
 
-        if(setButton){
+        if (setButton) {
             vbox.getChildren().addAll(title, subtitle, tryAgain);
-        }
-        else{
+        } else {
             vbox.getChildren().addAll(title, subtitle);
         }
 
