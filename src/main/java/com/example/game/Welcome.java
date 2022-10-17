@@ -16,42 +16,41 @@ import model.Board;
 import model.Game;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static model.Board.isTimerSet;
 
 public class Welcome extends Application {
 
-    @FXML private Button startButton;
-
-    @FXML private ToggleGroup toggleClimateRelevantSize;
-    @FXML private ToggleGroup togglePlanetSize;
-    @FXML private Text errorText;
-
-    private Game gameInstance;
-
     private static Stage primaryStage;
+    @FXML
+    private Button startButton;
+    @FXML
+    private ToggleGroup toggleClimateRelevantSize;
+    @FXML
+    private ToggleGroup togglePlanetSize;
+    @FXML
+    private Text errorText;
 
-    private void setPrimaryStage(Stage stage) {
-        Welcome.primaryStage = stage;
+    public static void main(String[] args) {
+        launch();
     }
 
     static public Stage getPrimaryStage() {
         return Welcome.primaryStage;
     }
 
+    private void setPrimaryStage(Stage stage) {
+        Welcome.primaryStage = stage;
+    }
 
+    // -- Event Handling --------------------------------------------------------------------------------------------
 
     @Override
     public void start(Stage stage) throws IOException {
         setPrimaryStage(stage);
-
         FXMLLoader fxmlLoader = new FXMLLoader(Welcome.class.getResource("welcome-view.fxml"));
 
-
         Scene scene = new Scene(fxmlLoader.load(), 1820, 980);
-
         stage.setTitle("Climate Manager");
         stage.setScene(scene);
         stage.show();
@@ -66,36 +65,38 @@ public class Welcome extends Application {
                 }
             });
         });
-
     }
 
 
-    public static void main(String[] args) {
-        launch();
-    }
+    // -- getter and setter ------------------------------------------------------------------------------------------
 
     @FXML
     public void initialize() {
         // Event Listener for Start Button
         startButton.setOnAction(e -> {
-            Parent newRoot = null;
-
-                FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
-
-            RadioButton selectedPlanetSize = (RadioButton) togglePlanetSize.getSelectedToggle();
-                RadioButton selectedClimateRelevantSize = (RadioButton)toggleClimateRelevantSize.getSelectedToggle();
-                if(selectedPlanetSize ==null || selectedClimateRelevantSize== null){
-                    errorText.setText("Please choose the size of the planet and its climate relevant areas.");
-                }
-                else{
-                    try {
-                    gameLoader.setController(new GameController(new Game(selectedPlanetSize.getText().equals("big"), selectedClimateRelevantSize.getText().equals("big"))));
-                    newRoot=gameLoader.load();
-                    getPrimaryStage().getScene().setRoot(newRoot);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+            startGame();
         });
+    }
+
+    private void startGame() {
+        Parent newRoot = null;
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+
+        // get user input
+        RadioButton selectedPlanetSize = (RadioButton) togglePlanetSize.getSelectedToggle();
+        RadioButton selectedClimateRelevantSize = (RadioButton) toggleClimateRelevantSize.getSelectedToggle();
+        if (selectedPlanetSize == null || selectedClimateRelevantSize == null) {
+            // handle no user input
+            errorText.setText("Please choose the size of the planet and its climate relevant areas.");
+        } else {
+            // open game view
+            try {
+                gameLoader.setController(new GameController(new Game(selectedPlanetSize.getText().equals("big"), selectedClimateRelevantSize.getText().equals("big"))));
+                newRoot = gameLoader.load();
+                getPrimaryStage().getScene().setRoot(newRoot);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }
