@@ -1,16 +1,14 @@
 package model;
 
 public class Game {
-    private Board board;
     private boolean planetBig;
     private boolean protectedBig;
     private int waterAvailable = 0;
     private int researchAvailable = 3;
 
-
-    public Game (boolean planetBig, boolean protectedBig){
-        this.planetBig=planetBig;
-        this.protectedBig=protectedBig;
+    public Game(boolean planetBig, boolean protectedBig) {
+        this.planetBig = planetBig;
+        this.protectedBig = protectedBig;
     }
 
     public boolean isPlanetBig() {
@@ -27,14 +25,14 @@ public class Game {
 
     public void increaseWaterAvailable(int maxWells) {
         this.waterAvailable++;
-        if(this.waterAvailable>maxWells){
-            this.waterAvailable=maxWells;
+        if (this.waterAvailable > maxWells) {
+            this.waterAvailable = maxWells;
         }
     }
 
-    public void decreaseWaterAvailable(){
+    public void decreaseWaterAvailable() {
         this.waterAvailable--;
-        if (this.waterAvailable<0){
+        if (this.waterAvailable < 0) {
             throw new IllegalStateException("Number of available water is in minus");
         }
     }
@@ -45,8 +43,8 @@ public class Game {
 
     public void decreaseResearchAvailable() {
         this.researchAvailable--;
-        if(this.researchAvailable<0){
-            this.researchAvailable=0;
+        if (this.researchAvailable < 0) {
+            this.researchAvailable = 0;
         }
     }
 }

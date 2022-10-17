@@ -53,16 +53,6 @@ public class GameStatePopup {
 
         vbox.setStyle("-fx-background-color:#975C4E; -fx-border-width:2;-fx-border-radius:3;-fx-hgap:3;-fx-vgap:5;");
 
-
-        /*double width = getPrimaryStage().getWidth() / 1.5;
-        double height = getPrimaryStage().getHeight() / 1.5;
-
-        //vbox.prefWidthProperty().bind(getPrimaryStage().widthProperty().multiply(0.80));
-        for(Node child : vbox.getChildren()) {
-            VBox.setVgrow(child, Priority.ALWAYS);
-        }
-        vbox.setAlignment(Pos.CENTER);*/
-
         popup.getContent().addAll(vbox);
     }
 
