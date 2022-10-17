@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import static model.Board.isTimerSet;
 
-public class Welcome extends Application {
+public class Main extends Application {
 
     private static Stage primaryStage;
     @FXML
@@ -35,20 +35,10 @@ public class Welcome extends Application {
         launch();
     }
 
-    static public Stage getPrimaryStage() {
-        return Welcome.primaryStage;
-    }
-
-    private void setPrimaryStage(Stage stage) {
-        Welcome.primaryStage = stage;
-    }
-
-    // -- Event Handling --------------------------------------------------------------------------------------------
-
     @Override
     public void start(Stage stage) throws IOException {
         setPrimaryStage(stage);
-        FXMLLoader fxmlLoader = new FXMLLoader(Welcome.class.getResource("welcome-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("welcome-view.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 1820, 980);
         stage.setTitle("Climate Manager");
@@ -67,9 +57,6 @@ public class Welcome extends Application {
         });
     }
 
-
-    // -- getter and setter ------------------------------------------------------------------------------------------
-
     @FXML
     public void initialize() {
         // Event Listener for Start Button
@@ -77,6 +64,8 @@ public class Welcome extends Application {
             startGame();
         });
     }
+
+    // -- Event Handling --------------------------------------------------------------------------------------------
 
     private void startGame() {
         Parent newRoot = null;
@@ -98,5 +87,15 @@ public class Welcome extends Application {
                 ex.printStackTrace();
             }
         }
+    }
+
+    // -- Getter and Setter -------------------------------------------------------------------------------------------
+
+    static public Stage getPrimaryStage() {
+        return Main.primaryStage;
+    }
+
+    private void setPrimaryStage(Stage stage) {
+        Main.primaryStage = stage;
     }
 }
