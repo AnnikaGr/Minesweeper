@@ -80,7 +80,8 @@ public class Main extends Application {
         } else {
             // open game view
             try {
-                gameLoader.setController(new GameController(new Game(selectedPlanetSize.getText().equals("big"), selectedClimateRelevantSize.getText().equals("big"))));
+                gameLoader.setController(new GameController(
+                        new Game(selectedPlanetSize.getText().equals("big"), selectedClimateRelevantSize.getText().equals("big"))));
                 newRoot = gameLoader.load();
                 getPrimaryStage().getScene().setRoot(newRoot);
             } catch (IOException ex) {

@@ -3,7 +3,6 @@ package controller;
 import com.example.game.Main;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,15 +33,16 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static controller.GameFlowUtil.delay;
+import static view.ViewUtil.*;
+
 public class GameController {
     @FXML
     private GridPane grid;
     @FXML
-    private Button backButton;
-    @FXML
     private Board board;
     @FXML
-    private Text infoText;
+    private Button backButton;
     @FXML
     private Text buildingCount;
     @FXML
@@ -58,28 +58,7 @@ public class GameController {
     private long dragStarted;
 
     public GameController(Game model) {
-        // ensure model is only set once:
-        if (this.gameInstance != null) {
-            throw new IllegalStateException("Model can only be initialized once");
-        }
         this.gameInstance = model;
-    }
-
-    // --helper methods--------------------------------------------------------------------------------------------
-    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    Thread.sleep(millis);
-                } catch (InterruptedException e) {
-                }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
     }
 
     // initialize view and model
@@ -190,7 +169,7 @@ public class GameController {
                         int col = grid.getColumnIndex(tmp);
 
                         Label node = (Label) getNodeFromGridPane(grid, col, row, "Label");
-                        updateNodeAsUncovered(tmp);
+                        updateNodeViewAsUncovered(tmp);
                         delay(1500, () -> updateNodeAsUncoveredButton(tmp));
 
                     }
@@ -292,7 +271,7 @@ public class GameController {
         //Event Listeners
         button.setOnMouseClicked(e -> {
             Button tmp = (Button) e.getSource();
-            updateNodeAsUncovered(tmp);
+            updateNodeViewAsUncovered(tmp);
         });
 
         // -- with help from https://stackoverflow.com/questions/34171841/javafx-minesweeper-how-to-tell-between-right-and-left-mouse-button-input
@@ -313,9 +292,9 @@ public class GameController {
                         return;
                     }
                     if (!board.grid[row][col].marked) {
-                        updateNodeAsNonMarked(tmp);
+                        updateNodeViewAsNonMarked(tmp);
                     } else {
-                        updateNodeAsMarked(tmp);
+                        updateNodeViewAsMarked(tmp);
                     }
                     board.mark(col, row);
                 } else if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
@@ -324,7 +303,7 @@ public class GameController {
                     int col = grid.getColumnIndex(currentField);
                     if (!board.grid[row][col].exposed && !board.grid[row][col].mineExposed) {
                         //uncoverField(currentField);
-                        updateNodeAsUncovered(currentField);
+                        updateNodeViewAsUncovered(currentField);
                         int status = board.expose(col, row);
                         if (status == -1 && gameInstance.getWaterAvailable() > 0) {
                             //View
@@ -448,7 +427,7 @@ public class GameController {
             int status = board.expose(col - 1, row);
             Button currentField = (Button) getNodeFromGridPane(grid, col - 1, row, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col - 1, row);
@@ -458,7 +437,7 @@ public class GameController {
             int status = board.expose(col, row - 1);
             Button currentField = (Button) getNodeFromGridPane(grid, col, row - 1, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col, row - 1);
@@ -468,7 +447,7 @@ public class GameController {
             int status = board.expose(col + 1, row);
             Button currentField = (Button) getNodeFromGridPane(grid, col + 1, row, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col + 1, row);
@@ -478,7 +457,7 @@ public class GameController {
             int status = board.expose(col, row + 1);
             Button currentField = (Button) getNodeFromGridPane(grid, col, row + 1, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col, row + 1);
@@ -488,7 +467,7 @@ public class GameController {
             int status = board.expose(col + 1, row + 1);
             Button currentField = (Button) getNodeFromGridPane(grid, col + 1, row + 1, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col + 1, row + 1);
@@ -498,7 +477,7 @@ public class GameController {
             int status = board.expose(col - 1, row - 1);
             Button currentField = (Button) getNodeFromGridPane(grid, col - 1, row - 1, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col - 1, row - 1);
@@ -508,7 +487,7 @@ public class GameController {
             int status = board.expose(col + 1, row - 1);
             Button currentField = (Button) getNodeFromGridPane(grid, col + 1, row - 1, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col + 1, row - 1);
@@ -518,7 +497,7 @@ public class GameController {
             int status = board.expose(col - 1, row + 1);
             Button currentField = (Button) getNodeFromGridPane(grid, col - 1, row + 1, "Button");
             if (currentField != null) {
-                updateNodeAsUncovered(currentField);
+                updateNodeViewAsUncovered(currentField);
             }
             if (status == 0) {
                 exposeSurroundings(col - 1, row + 1);
@@ -644,29 +623,6 @@ public class GameController {
                 }
             }
         });
-    }
-
-    // -- update cell views --------------------------------------------------------------------------
-    private void updateNodeViewAsEmptyWell(Node tmp) {
-        tmp.setStyle("-fx-background-color: #4682B4; -fx-border-color: #FFFFFF;");
-    }
-
-    ;
-
-    private void updateNodeAsUncovered(Node tmp) {
-        tmp.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
-    }
-
-    private void updateNodeAsNonMarked(Node tmp) {
-        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #D94D3C; -fx-border-width: 3px;");
-    }
-
-    private void updateNodeAsMarked(Node tmp) {
-        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF;");
-    }
-
-    private void updateNodeAsUncoveredButton(Node tmp) {
-        tmp.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )");
     }
 
 }
