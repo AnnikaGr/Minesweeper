@@ -22,4 +22,12 @@ public final class ViewUtil {
     public static void updateNodeAsUncoveredButton(Node node) {
         node.setStyle("-fx-background-color: #99B931; -fx-border-color: #FFFFFF; -fx-effect: dropshadow( gaussian , rgba(255,255,02550.4) , 10,0,0,1 )");
     }
+
+    public static void displayItemAsAvailable(Node button) {
+        button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+    }
+
+    public static void displayItemAsUnavailable(Node button) {
+        button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+    }
 }

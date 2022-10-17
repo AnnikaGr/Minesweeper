@@ -57,13 +57,12 @@ public class GameController {
         this.gameInstance = model;
     }
 
-    // initialize view and model
-    // set event listeners
+    // -- create game basis ------------------------------------------------------------------------------------
     @FXML
     public void initialize() {
         // set planet size
-        int numRows = 1;
-        int numColumns = 1;
+        int numRows;
+        int numColumns;
         if (gameInstance.isPlanetBig()) {
             numRows = 15;
             numColumns = 26;
@@ -72,22 +71,22 @@ public class GameController {
             numColumns = 19;
         }
 
-        //set climate relevant area size = number of mines
-        int numMines = 100;
+        //set peatland frequency = number of mines
+        int numMines;
         if (gameInstance.isProtectedBig()) {
-            numMines = 0;
+            numMines = 100;
         } else {
             numMines = 50;
         }
 
+        // set number of wells available on planet
         int numWells = 3;
 
         // create Model
         Board board = new Board(numRows, numColumns, numMines, numWells);
         this.board = board;
 
-        // create grid of buttons
-        // parts of this code are taken from the answers at https://stackoverflow.com/questions/35344702/how-do-i-get-buttons-to-fill-a-javafx-gridpane
+        // create View: Grid with Buttons
         for (int row = 0; row < numRows; row++) {
             RowConstraints rc = new RowConstraints();
             rc.setFillHeight(true);
@@ -114,79 +113,19 @@ public class GameController {
                 } else {
                     content = Integer.toString(board.grid[i][j].numSurroundingMines);
                 }
-                //
-
                 Label label = createCellContent(content);
                 grid.add(label, j, i);
                 grid.add(button, j, i);
             }
         }
 
-        // Other Event Listeners
-        //back button
+        // Set Event Listeners
         backButton.setOnAction(e -> {
             returnToWelcome();
         });
-
-
-        grid.getChildren().forEach(item -> {
-            item.setOnScroll(new EventHandler<ScrollEvent>() {
-                @Override
-                public void handle(ScrollEvent scrollEvent) {
-                    Node tmp = (Node) scrollEvent.getSource();
-                    int row = grid.getRowIndex(tmp);
-                    int col = grid.getColumnIndex(tmp);
-
-                    if (board.grid[row][col].exposed && board.grid[row][col].hasWell) {
-                        board.grid[row][col].hasWell = false;
-                        updateNodeViewAsEmptyWell(tmp);
-                        gameInstance.increaseWaterAvailable(numWells);
-                        updateWaterAvailableBar();
-                    }
-                }
-            });
-
-            item.setOnDragDetected(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    item.startFullDrag();
-                    dragStarted = System.currentTimeMillis();
-                }
-            });
-
-            item.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
-                @Override
-                public void handle(MouseDragEvent event) {
-                    if (gameInstance.getResearchAvailable() <= 0 || System.currentTimeMillis() - dragStarted > 1000) {
-                        event.consume();
-                    } else {
-                        Node tmp = (Node) event.getSource();
-                        int row = grid.getRowIndex(tmp);
-                        int col = grid.getColumnIndex(tmp);
-
-                        Label node = (Label) getNodeFromGridPane(grid, col, row, "Label");
-                        updateNodeViewAsUncovered(tmp);
-                        delay(1500, () -> updateNodeAsUncoveredButton(tmp));
-
-                    }
-                }
-            });
-
-            item.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
-                @Override
-                public void handle(MouseDragEvent event) {
-                    gameInstance.decreaseResearchAvailable();
-                    updateResearchAvailableBar();
-
-                }
-            });
-
-        });
-
-
+        initializeWellInteraction(numWells);
+        initializeResearchInteraction();
     }
-
-    // -- create game -------------------------------------------------------------------------------------
 
     private Label createCellContent(String text) {
         Label label = new Label(text);
@@ -195,11 +134,11 @@ public class GameController {
 
         //Cell content styling
         label.setTextFill(Color.color(1, 1, 1));
-        if (text == "mine") {
+        if (text.equals("mine")) {
             label.setStyle("-fx-background-color: #D74F4C;");
-        } else if (text == "water") {
+        } else if (text.equals("water")) {
             label.setStyle("-fx-background-color: #0069D9;");
-        } else if (text == "well") {
+        } else if (text.equals("well")) {
             label.setStyle("-fx-background-color: #4DA3FF;");
         } else {
             label.setStyle("-fx-background-color: #404040;");
@@ -211,14 +150,6 @@ public class GameController {
         Button button = new Button(text);
         updateNodeAsUncoveredButton(button);
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-        //Event Listeners
-        button.setOnMouseClicked(e -> {
-            Button tmp = (Button) e.getSource();
-            updateNodeViewAsUncovered(tmp);
-        });
-
-        // -- with help from https://stackoverflow.com/questions/34171841/javafx-minesweeper-how-to-tell-between-right-and-left-mouse-button-input
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -227,11 +158,11 @@ public class GameController {
                     setTimer();
                     board.isTimerSet = true;
                 }
-
+                // flag on right click
                 if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                     Button tmp = (Button) mouseEvent.getSource();
-                    int row = grid.getRowIndex(tmp);
-                    int col = grid.getColumnIndex(tmp);
+                    int row = GridPane.getRowIndex(tmp);
+                    int col = GridPane.getColumnIndex(tmp);
                     if (board.grid[row][col].exposed || board.grid[row][col].mineExposed) {
                         return;
                     }
@@ -241,64 +172,45 @@ public class GameController {
                         updateNodeViewAsMarked(tmp);
                     }
                     board.mark(col, row);
+
+                    // uncover on left click
                 } else if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     Button currentField = (Button) mouseEvent.getSource();
-                    int row = grid.getRowIndex(currentField);
-                    int col = grid.getColumnIndex(currentField);
+                    int row = GridPane.getRowIndex(currentField);
+                    int col = GridPane.getColumnIndex(currentField);
                     if (!board.grid[row][col].exposed && !board.grid[row][col].mineExposed) {
-                        //uncoverField(currentField);
                         updateNodeViewAsUncovered(currentField);
                         int status = board.expose(col, row);
-                        if (status == -1 && gameInstance.getWaterAvailable() > 0) {
-                            //View
-                            GameStatePopup popup = new GameStatePopup("Oh no! You built on peatland!",
-                                    " Fortunately you collected water before. Quickly blow in your mic to use it to restore the area and cool down the planet!", false,
-                                    "");
-                            popup.getPopup().show(Main.getPrimaryStage());
-                            delay(3000, () -> startBlowingInteraction(popup, currentField));
-                        }
-                        handleGameState(status, row, col);
+                        handleGameState(status, row, col, currentField);
                     }
                 }
-
-                //TODO handle drag
             }
         });
         return button;
     }
 
+    // -- handle gameplay ------------------------------------------------------------------------------------------------
 
-    private void startBlowingInteraction(GameStatePopup popup, Button currentField) {
-        if (detectNoise(5)) {
-            popup.setTitle("Great! You restored the peatland using 1 water!");
-            popup.setSubtitle("");
-            delay(1500, () -> popup.getPopup().hide());
-            currentField.setStyle("-fx-background-color: #975C4E; -fx-border-color: #FFFFFF;");
-            gameInstance.decreaseWaterAvailable();
-            board.grid[grid.getRowIndex(currentField)][grid.getColumnIndex(currentField)].hasMine = false;
-            board.numBombsHit = board.numBombsHit - 1;
-            updateWaterAvailableBar();
-            decreaseTemperatureBar();
-        } else {
-            popup.setTitle("Oh no! You didn´t blow enough to restore this peatland!");
-            popup.setSubtitle("");
-            delay(1500, () -> popup.getPopup().hide());
+    private void handleGameState(int status, int row, int col, Button currentField) {
+        // mine uncovered and water available
+        if (status == -1 && gameInstance.getWaterAvailable() > 0) {
+            //View
+            GameStatePopup popup = new GameStatePopup("Oh no! You built on peatland!",
+                    " Fortunately you collected water before. Quickly blow in your mic to use it to restore the area and cool down the planet!", false,
+                    "");
+            popup.getPopup().show(Main.getPrimaryStage());
+            delay(3000, () -> startBlowingInteraction(popup, currentField));
         }
-
-    }
-
-    // -- gameplay ------------------------------------------------------------------------------------------------
-
-    private void handleGameState(int status, int row, int col) {
-        if (status == -1) { // mine uncovered but game not lost yet
+        // mine uncovered but game not lost yet
+        if (status == -1) {
             increaseTemperatureBar();
-        } else if (status == -3) { // mine uncovered and game lost
+        }
+        // mine uncovered and game lost
+        else if (status == -3) {
             increaseTemperatureBar();
             GameStatePopup popup = new GameStatePopup("Oh no!",
                     "You disrespected too many peatlands during the construction of your planet. It cannot keep the balance like that.", true,
                     "Try again");
-
-            // Event handler
             Button tryAgain = popup.getTryAgainButton();
             tryAgain.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -307,17 +219,14 @@ public class GameController {
                     returnToWelcome();
                 }
             });
-
             popup.getPopup().show(Main.getPrimaryStage());
-
-        } else if (status == -4) { //game won
+            //game won
+        } else if (status == -4) {
 
             GameStatePopup popup = new GameStatePopup("Congratulations!",
                     "You successfully managed our planet accommodating everybody while keeping its balance.", true,
                     "Play again");
             popup.getPopup().centerOnScreen();
-
-            // Event handler
             Button tryAgain = popup.getTryAgainButton();
             tryAgain.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -326,18 +235,16 @@ public class GameController {
                     returnToWelcome();
                 }
             });
-
             popup.getPopup().show(Main.getPrimaryStage());
-
-        } else if (status == 0) { //no surrounding bombs on this cell
+            //no surrounding bombs on this cell
+        } else if (status == 0) {
             exposeSurroundings(col, row);
         } else {
             buildingCount.setText(Integer.toString(board.numExposedCells));
         }
-
     }
 
-    private boolean exposeSurroundings(int col, int row) {
+    private void exposeSurroundings(int col, int row) {
         if (!board.isExposed(col - 1, row)) {
             int status = board.expose(col - 1, row);
             Button currentField = (Button) getNodeFromGridPane(grid, col - 1, row, "Button");
@@ -418,7 +325,80 @@ public class GameController {
                 exposeSurroundings(col - 1, row + 1);
             }
         }
-        return true;
+    }
+
+    // -- Interactions -----------------------------------------------------------------------------------------
+
+    private void startBlowingInteraction(GameStatePopup popup, Button currentField) {
+        if (detectNoise(5)) {
+            popup.setTitle("Great! You restored the peatland using 1 water!");
+            popup.setSubtitle("");
+            delay(1500, () -> popup.getPopup().hide());
+            currentField.setStyle("-fx-background-color: #975C4E; -fx-border-color: #FFFFFF;");
+            gameInstance.decreaseWaterAvailable();
+            board.grid[GridPane.getRowIndex(currentField)][GridPane.getColumnIndex(currentField)].hasMine = false;
+            board.numBombsHit = board.numBombsHit - 1;
+            updateWaterAvailableBar();
+            decreaseTemperatureBar();
+        } else {
+            popup.setTitle("Oh no! You didn´t blow enough to restore this peatland!");
+            popup.setSubtitle("");
+            delay(1500, () -> popup.getPopup().hide());
+        }
+
+    }
+
+    private void initializeWellInteraction(int numWells) {
+        grid.getChildren().forEach(item -> {
+            // well interaction
+            item.setOnScroll(new EventHandler<ScrollEvent>() {
+                @Override
+                public void handle(ScrollEvent scrollEvent) {
+                    Node tmp = (Node) scrollEvent.getSource();
+                    int row = GridPane.getRowIndex(tmp);
+                    int col = GridPane.getColumnIndex(tmp);
+
+                    if (board.grid[row][col].exposed && board.grid[row][col].hasWell) {
+                        board.grid[row][col].hasWell = false;
+                        updateNodeViewAsEmptyWell(tmp);
+                        gameInstance.increaseWaterAvailable(numWells);
+                        updateWaterAvailableBar();
+                    }
+                }
+            });
+        });
+    }
+
+    private void initializeResearchInteraction() {
+        grid.getChildren().forEach(item -> {
+            // research interaction
+            item.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    item.startFullDrag();
+                    dragStarted = System.currentTimeMillis();
+                }
+            });
+            item.setOnMouseDragOver(new EventHandler<MouseDragEvent>() {
+                @Override
+                public void handle(MouseDragEvent event) {
+                    if (gameInstance.getResearchAvailable() <= 0 || System.currentTimeMillis() - dragStarted > 1000) {
+                        event.consume();
+                    } else {
+                        Node tmp = (Node) event.getSource();
+                        updateNodeViewAsUncovered(tmp);
+                        delay(1500, () -> updateNodeAsUncoveredButton(tmp));
+                    }
+                }
+            });
+            item.setOnMouseDragReleased(new EventHandler<MouseDragEvent>() {
+                @Override
+                public void handle(MouseDragEvent event) {
+                    gameInstance.decreaseResearchAvailable();
+                    updateResearchAvailableBar();
+                }
+            });
+        });
     }
 
 
@@ -430,9 +410,9 @@ public class GameController {
         ) {
             researchAvailable--;
             if (researchAvailable >= 0) {
-                button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+                displayItemAsAvailable(button);
             } else {
-                button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+                displayItemAsUnavailable(button);
             }
         }
     }
@@ -444,9 +424,9 @@ public class GameController {
         ) {
             waterAvailable--;
             if (waterAvailable >= 0) {
-                button.setStyle("-fx-background-color:  #78BBCF; -fx-border-color: #FFFFFF;");
+                displayItemAsAvailable(button);
             } else {
-                button.setStyle("-fx-background-color:  #d3d3d3; -fx-border-color: #FFFFFF;");
+                displayItemAsUnavailable(button);
             }
         }
     }
@@ -508,6 +488,18 @@ public class GameController {
         });
     }
 
+    // -- end game -----------------------------------------------------------------------------------------
+    private void returnToWelcome() {
+        restartTime();
+        Parent newRoot = null;
+        try {
+            newRoot = FXMLLoader.load(Main.class.getResource("welcome-view.fxml"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Main.getPrimaryStage().getScene().setRoot(newRoot);
+    }
+
     // -- util methods ----------------------------------------------------------------------------------
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row, String type) {
         for (Node node : gridPane.getChildren()) {
@@ -529,17 +521,5 @@ public class GameController {
             }
         }
         return null;
-    }
-
-    // -- end game -----------------------------------------------------------------------------------------
-    private void returnToWelcome() {
-        restartTime();
-        Parent newRoot = null;
-        try {
-            newRoot = FXMLLoader.load(Main.class.getResource("welcome-view.fxml"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        Main.getPrimaryStage().getScene().setRoot(newRoot);
     }
 }
