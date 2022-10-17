@@ -24,16 +24,12 @@ import model.Board;
 import model.Game;
 import view.GameStatePopup;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.TargetDataLine;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static controller.GameFlowUtil.delay;
+import static controller.NoiseDetectionUtil.detectNoise;
 import static view.ViewUtil.*;
 
 public class GameController {
@@ -190,77 +186,25 @@ public class GameController {
 
     }
 
-    public boolean detectNoise(int detectionTime) {
+    // -- create game -------------------------------------------------------------------------------------
 
-        //Audio Detection
-        ByteArrayOutputStream byteArrayOutputStream;
-        TargetDataLine targetDataLine;
-        int cnt;
-        byte tempBuffer[] = new byte[1024 * 4];
-        int countzero, countdownTimer;
-        short convert[] = new short[tempBuffer.length];
+    private Label createCellContent(String text) {
+        Label label = new Label(text);
+        label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        label.setAlignment(Pos.CENTER);
 
-        try {
-            byteArrayOutputStream = new ByteArrayOutputStream();
-            countdownTimer = 0;
-            while (countdownTimer < detectionTime) {
-                AudioFormat audioFormat = new AudioFormat(8000.0F, 16, 1, true, false);
-                DataLine.Info dataLineInfo = new DataLine.Info(TargetDataLine.class, audioFormat);
-                targetDataLine = (TargetDataLine) AudioSystem.getLine(dataLineInfo);
-                targetDataLine.open(audioFormat);
-                targetDataLine.start();
-                cnt = targetDataLine.read(tempBuffer, 0, tempBuffer.length);
-                byteArrayOutputStream.write(tempBuffer, 0, cnt);
-
-                int level = 0;
-                if (targetDataLine.read(tempBuffer, 0, tempBuffer.length) > 0) {
-                    level = calculateRMSLevel(tempBuffer);
-                    if (level > 40) {
-                        Thread.sleep(0);
-                        targetDataLine.close();
-                        return true;
-                    }
-                }
-
-                try {
-                    countzero = 0;
-                    for (int i = 0; i < tempBuffer.length; i++) {
-                        convert[i] = tempBuffer[i];
-                        if (convert[i] == 0) {
-                            countzero++;
-                        }
-                    }
-
-                    countdownTimer++;
-
-                } catch (StringIndexOutOfBoundsException e) {
-                    System.out.println(e.getMessage());
-                }
-                Thread.sleep(0);
-                targetDataLine.close();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
+        //Cell content styling
+        label.setTextFill(Color.color(1, 1, 1));
+        if (text == "mine") {
+            label.setStyle("-fx-background-color: #D74F4C;");
+        } else if (text == "water") {
+            label.setStyle("-fx-background-color: #0069D9;");
+        } else if (text == "well") {
+            label.setStyle("-fx-background-color: #4DA3FF;");
+        } else {
+            label.setStyle("-fx-background-color: #404040;");
         }
-
-        return false;
-    }
-
-    // --- https://stackoverflow.com/questions/3899585/microphone-level-in-java
-    public int calculateRMSLevel(byte[] audioData) {
-        long lSum = 0;
-        for (int i = 0; i < audioData.length; i++)
-            lSum = lSum + audioData[i];
-
-        double dAvg = lSum / audioData.length;
-        double sumMeanSquare = 0d;
-
-        for (int j = 0; j < audioData.length; j++)
-            sumMeanSquare += Math.pow(audioData[j] - dAvg, 2d);
-
-        double averageMeanSquare = sumMeanSquare / audioData.length;
-
-        return (int) (Math.pow(averageMeanSquare, 0.5d) + 0.5);
+        return label;
     }
 
     private Button createButton(String text) {
@@ -323,6 +267,7 @@ public class GameController {
         return button;
     }
 
+
     private void startBlowingInteraction(GameStatePopup popup, Button currentField) {
         if (detectNoise(5)) {
             popup.setTitle("Great! You restored the peatland using 1 water!");
@@ -342,34 +287,7 @@ public class GameController {
 
     }
 
-    private Label createCellContent(String text) {
-        Label label = new Label(text);
-        label.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        label.setAlignment(Pos.CENTER);
-
-        //Cell content styling
-        label.setTextFill(Color.color(1, 1, 1));
-        if (text == "mine") {
-            label.setStyle("-fx-background-color: #D74F4C;");
-        } else if (text == "water") {
-            label.setStyle("-fx-background-color: #0069D9;");
-        } else if (text == "well") {
-            label.setStyle("-fx-background-color: #4DA3FF;");
-        } else {
-            label.setStyle("-fx-background-color: #404040;");
-        }
-
-        //Event Listener
-
-        /*ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = getClass().getResourceAsStream("/house.png");
-        ImageView imageView = new ImageView(new Image(GameController.class.getClassLoader().getResourceAsStream("./com/example/game/images")));
-        imageView.setPreserveRatio(true);
-        imageView.fitWidthProperty().bind(grid.widthProperty().subtract(10d));
-        imageView.fitHeightProperty().bind(grid.heightProperty().subtract(10d));
-        return imageView;*/
-        return label;
-    }
+    // -- gameplay ------------------------------------------------------------------------------------------------
 
     private void handleGameState(int status, int row, int col) {
         if (status == -1) { // mine uncovered but game not lost yet
@@ -418,9 +336,6 @@ public class GameController {
         }
 
     }
-
-
-    // -- navigation methods ----------------------------------------------------------------------------------
 
     private boolean exposeSurroundings(int col, int row) {
         if (!board.isExposed(col - 1, row)) {
@@ -506,40 +421,8 @@ public class GameController {
         return true;
     }
 
-    private void returnToWelcome() {
-        restartTime();
-        Parent newRoot = null;
-        try {
-            newRoot = FXMLLoader.load(Main.class.getResource("welcome-view.fxml"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        Main.getPrimaryStage().getScene().setRoot(newRoot);
-    }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row, String type) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                if (type.equals("Label")) {
-                    if (node instanceof Label) {
-                        return node;
-                    }
-
-                } else if (type.equals("Button")) {
-                    if (node instanceof Button) {
-                        return node;
-                    }
-
-                } else {
-                    throw new IllegalArgumentException("No child of specified type found in grid cell");
-                }
-
-            }
-        }
-        return null;
-    }
-
-    // --updating view methods------------------------------------------------------------------------------------
+    // --update game status views ------------------------------------------------------------------------------------
     public void updateResearchAvailableBar() {
         int researchAvailable = gameInstance.getResearchAvailable();
         ObservableList<Node> buttons = researchBox.getChildren();
@@ -625,4 +508,38 @@ public class GameController {
         });
     }
 
+    // -- util methods ----------------------------------------------------------------------------------
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row, String type) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                if (type.equals("Label")) {
+                    if (node instanceof Label) {
+                        return node;
+                    }
+
+                } else if (type.equals("Button")) {
+                    if (node instanceof Button) {
+                        return node;
+                    }
+
+                } else {
+                    throw new IllegalArgumentException("No child of specified type found in grid cell");
+                }
+
+            }
+        }
+        return null;
+    }
+
+    // -- end game -----------------------------------------------------------------------------------------
+    private void returnToWelcome() {
+        restartTime();
+        Parent newRoot = null;
+        try {
+            newRoot = FXMLLoader.load(Main.class.getResource("welcome-view.fxml"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Main.getPrimaryStage().getScene().setRoot(newRoot);
+    }
 }
