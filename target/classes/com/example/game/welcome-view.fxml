@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0"
-      styleClass="background" xmlns="http://javafx.com/javafx/11.0.2" fx:controller="com.example.game.Main">
+<VBox alignment="CENTER" prefHeight="1080.0" prefWidth="1920.0" styleClass="background"
+      xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.game.Main">
     <stylesheets>
         <URL value="@application.css"/>
     </stylesheets>
@@ -17,7 +17,7 @@
     <children>
         <VBox alignment="CENTER">
             <children>
-                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Climate Management">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Your Planet!">
                     <font>
                         <Font name="Bauhaus 93" size="96.0"/>
                     </font>
@@ -54,7 +54,7 @@
                         </RadioButton>
                     </children>
                 </HBox>
-                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Climate Relevant Areas">
+                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Peatland Area">
                     <font>
                         <Font name="Bauhaus 93" size="36.0"/>
                     </font>
@@ -93,7 +93,7 @@
                 </Text>
                 <Button fx:id="startButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="274.0"
                         style="-fx-background-color: #975C4E; -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 );"
-                        text="Manage planet" textFill="WHITE">
+                        text="Manage Planet" textFill="WHITE">
                     <font>
                         <Font name="Bauhaus 93" size="24.0"/>
                     </font>

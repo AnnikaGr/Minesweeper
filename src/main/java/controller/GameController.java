@@ -105,7 +105,7 @@ public class GameController {
                 Button button = createButton("");
                 String content = "";
                 if (board.grid[i][j].hasMine) {
-                    content = "mine";
+                    content = "x";
                 } else if (board.grid[i][j].hasWater) {
                     content = "water";
                 } else if (board.grid[i][j].hasWell) {
@@ -134,7 +134,7 @@ public class GameController {
 
         //Cell content styling
         label.setTextFill(Color.color(1, 1, 1));
-        if (text.equals("mine")) {
+        if (text.equals("x")) {
             label.setStyle("-fx-background-color: #D74F4C;");
         } else if (text.equals("water")) {
             label.setStyle("-fx-background-color: #0069D9;");
@@ -229,9 +229,8 @@ public class GameController {
             if (won) {
                 gameWon();
             }
-        } else {
-            buildingCount.setText(Integer.toString(board.numExposedCells));
         }
+        buildingCount.setText(Integer.toString(board.numExposedCells));
     }
 
     private boolean exposeSurroundings(int col, int row) {
