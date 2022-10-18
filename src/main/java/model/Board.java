@@ -101,15 +101,15 @@ public class Board {
 
     // expose a cell
     public int expose(int column, int row) {
+        if (unexposedCount() == 1) {//game won
+            return -4;
+        }
+
         if (column >= width || row >= height || column < 0 || row < 0) {
             return -6; //reached field edge
         }
 
         Cell cell = grid[row][column];
-
-        if (unexposedCount() == 1) {//game won
-            return -4;
-        }
 
         if (cell.hasMine) {
             numBombsHit = numBombsHit + 1;

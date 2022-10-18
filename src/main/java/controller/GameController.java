@@ -222,29 +222,19 @@ public class GameController {
             popup.getPopup().show(Main.getPrimaryStage());
             //game won
         } else if (status == -4) {
-
-            GameStatePopup popup = new GameStatePopup("Congratulations!",
-                    "You successfully managed our planet accommodating everybody while keeping its balance.", true,
-                    "Play again");
-            popup.getPopup().centerOnScreen();
-            Button tryAgain = popup.getTryAgainButton();
-            tryAgain.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    popup.getPopup().hide();
-                    returnToWelcome();
-                }
-            });
-            popup.getPopup().show(Main.getPrimaryStage());
+            gameWon();
             //no surrounding bombs on this cell
         } else if (status == 0) {
-            exposeSurroundings(col, row);
+            boolean won = exposeSurroundings(col, row);
+            if (won) {
+                gameWon();
+            }
         } else {
             buildingCount.setText(Integer.toString(board.numExposedCells));
         }
     }
 
-    private void exposeSurroundings(int col, int row) {
+    private boolean exposeSurroundings(int col, int row) {
         if (!board.isExposed(col - 1, row)) {
             int status = board.expose(col - 1, row);
             Button currentField = (Button) getNodeFromGridPane(grid, col - 1, row, "Button");
@@ -253,6 +243,9 @@ public class GameController {
             }
             if (status == 0) {
                 exposeSurroundings(col - 1, row);
+            }
+            if (status == -4) {
+                return true;
             }
         }
         if (!board.isExposed(col, row - 1)) {
@@ -264,6 +257,9 @@ public class GameController {
             if (status == 0) {
                 exposeSurroundings(col, row - 1);
             }
+            if (status == -4) {
+                return true;
+            }
         }
         if (!board.isExposed(col + 1, row)) {
             int status = board.expose(col + 1, row);
@@ -273,6 +269,9 @@ public class GameController {
             }
             if (status == 0) {
                 exposeSurroundings(col + 1, row);
+            }
+            if (status == -4) {
+                return true;
             }
         }
         if (!board.isExposed(col, row + 1)) {
@@ -284,6 +283,9 @@ public class GameController {
             if (status == 0) {
                 exposeSurroundings(col, row + 1);
             }
+            if (status == -4) {
+                return true;
+            }
         }
         if (!board.isExposed(col + 1, row + 1)) {
             int status = board.expose(col + 1, row + 1);
@@ -293,6 +295,9 @@ public class GameController {
             }
             if (status == 0) {
                 exposeSurroundings(col + 1, row + 1);
+            }
+            if (status == -4) {
+                return true;
             }
         }
         if (!board.isExposed(col - 1, row - 1)) {
@@ -304,6 +309,9 @@ public class GameController {
             if (status == 0) {
                 exposeSurroundings(col - 1, row - 1);
             }
+            if (status == -4) {
+                return true;
+            }
         }
         if (!board.isExposed(col + 1, row - 1)) {
             int status = board.expose(col + 1, row - 1);
@@ -313,6 +321,9 @@ public class GameController {
             }
             if (status == 0) {
                 exposeSurroundings(col + 1, row - 1);
+            }
+            if (status == -4) {
+                return true;
             }
         }
         if (!board.isExposed(col - 1, row + 1)) {
@@ -324,7 +335,11 @@ public class GameController {
             if (status == 0) {
                 exposeSurroundings(col - 1, row + 1);
             }
+            if (status == -4) {
+                return true;
+            }
         }
+        return false;
     }
 
     // -- Interactions -----------------------------------------------------------------------------------------
@@ -521,5 +536,21 @@ public class GameController {
             }
         }
         return null;
+    }
+
+    private void gameWon() {
+        GameStatePopup popup = new GameStatePopup("Congratulations!",
+                "You successfully managed our planet accommodating everybody while keeping its balance.", true,
+                "Play again");
+        popup.getPopup().centerOnScreen();
+        Button tryAgain = popup.getTryAgainButton();
+        tryAgain.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                popup.getPopup().hide();
+                returnToWelcome();
+            }
+        });
+        popup.getPopup().show(Main.getPrimaryStage());
     }
 }
