@@ -6,23 +6,23 @@
   <library name="Maven: org.openjfx:javafx-controls:win:11.0.2">
     <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-controls/11.0.2/javafx-controls-11.0.2-win.jar" />
   </library>
-  <library name="Maven: org.openjfx:javafx-fxml:11.0.2">
-    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2.jar" />
-  </library>
-  <library name="Maven: org.openjfx:javafx-fxml:win:11.0.2">
-    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2-win.jar" />
-  </library>
   <library name="Maven: org.openjfx:javafx-graphics:11.0.2">
     <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-graphics/11.0.2/javafx-graphics-11.0.2.jar" />
   </library>
   <library name="Maven: org.openjfx:javafx-graphics:win:11.0.2">
     <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-graphics/11.0.2/javafx-graphics-11.0.2-win.jar" />
   </library>
-  <library name="Maven: org.openjfx:javafx-media:11.0.2">
-    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-media/11.0.2/javafx-media-11.0.2.jar" />
+  <library name="Maven: org.openjfx:javafx-base:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2.jar" />
   </library>
-  <library name="Maven: org.openjfx:javafx-media:win:11.0.2">
-    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-media/11.0.2/javafx-media-11.0.2-win.jar" />
+  <library name="Maven: org.openjfx:javafx-base:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2-win.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-fxml:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2.jar" />
+  </library>
+  <library name="Maven: org.openjfx:javafx-fxml:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-fxml/11.0.2/javafx-fxml-11.0.2-win.jar" />
   </library>
   <library name="Maven: org.openjfx:javafx-web:11.0.2">
     <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-web/11.0.2/javafx-web-11.0.2.jar" />
@@ -30,44 +30,44 @@
   <library name="Maven: org.openjfx:javafx-web:win:11.0.2">
     <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-web/11.0.2/javafx-web-11.0.2-win.jar" />
   </library>
-  <library name="Maven: org.opentest4j:opentest4j:1.2.0">
-    <archive path="C:/Users/Annika/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" />
+  <library name="Maven: org.openjfx:javafx-media:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-media/11.0.2/javafx-media-11.0.2.jar" />
   </library>
-  <library name="Maven: eu.hansolo:tilesfx:11.48">
-    <archive path="C:/Users/Annika/.m2/repository/eu/hansolo/tilesfx/11.48/tilesfx-11.48.jar" />
-  </library>
-  <library name="Maven: org.apiguardian:apiguardian-api:1.1.0">
-    <archive path="C:/Users/Annika/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar" />
+  <library name="Maven: org.openjfx:javafx-media:win:11.0.2">
+    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-media/11.0.2/javafx-media-11.0.2-win.jar" />
   </library>
   <library name="Maven: org.controlsfx:controlsfx:11.1.0">
     <archive path="C:/Users/Annika/.m2/repository/org/controlsfx/controlsfx/11.1.0/controlsfx-11.1.0.jar" />
   </library>
-  <library name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.1">
-    <archive path="C:/Users/Annika/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.7.1/junit-jupiter-api-5.7.1.jar" />
-  </library>
-  <library name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.1">
-    <archive path="C:/Users/Annika/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.7.1/junit-jupiter-engine-5.7.1.jar" />
-  </library>
-  <library name="Maven: org.junit.platform:junit-platform-commons:1.7.1">
-    <archive path="C:/Users/Annika/.m2/repository/org/junit/platform/junit-platform-commons/1.7.1/junit-platform-commons-1.7.1.jar" />
-  </library>
-  <library name="Maven: org.junit.platform:junit-platform-engine:1.7.1">
-    <archive path="C:/Users/Annika/.m2/repository/org/junit/platform/junit-platform-engine/1.7.1/junit-platform-engine-1.7.1.jar" />
-  </library>
-  <library name="Maven: org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0">
-    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/bootstrapfx/bootstrapfx-core/0.4.0/bootstrapfx-core-0.4.0.jar" />
+  <library name="Maven: org.kordamp.ikonli:ikonli-javafx:12.2.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/ikonli/ikonli-javafx/12.2.0/ikonli-javafx-12.2.0.jar" />
   </library>
   <library name="Maven: org.kordamp.ikonli:ikonli-core:12.2.0">
     <archive path="C:/Users/Annika/.m2/repository/org/kordamp/ikonli/ikonli-core/12.2.0/ikonli-core-12.2.0.jar" />
   </library>
-  <library name="Maven: org.kordamp.ikonli:ikonli-javafx:12.2.0">
-    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/ikonli/ikonli-javafx/12.2.0/ikonli-javafx-12.2.0.jar" />
+  <library name="Maven: org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/kordamp/bootstrapfx/bootstrapfx-core/0.4.0/bootstrapfx-core-0.4.0.jar" />
   </library>
-  <library name="Maven: org.openjfx:javafx-base:11.0.2">
-    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2.jar" />
+  <library name="Maven: eu.hansolo:tilesfx:11.48">
+    <archive path="C:/Users/Annika/.m2/repository/eu/hansolo/tilesfx/11.48/tilesfx-11.48.jar" />
   </library>
-  <library name="Maven: org.openjfx:javafx-base:win:11.0.2">
-    <archive path="C:/Users/Annika/.m2/repository/org/openjfx/javafx-base/11.0.2/javafx-base-11.0.2-win.jar" />
+  <library name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.7.1/junit-jupiter-api-5.7.1.jar" />
+  </library>
+  <library name="Maven: org.apiguardian:apiguardian-api:1.1.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/apiguardian/apiguardian-api/1.1.0/apiguardian-api-1.1.0.jar" />
+  </library>
+  <library name="Maven: org.opentest4j:opentest4j:1.2.0">
+    <archive path="C:/Users/Annika/.m2/repository/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-commons:1.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/platform/junit-platform-commons/1.7.1/junit-platform-commons-1.7.1.jar" />
+  </library>
+  <library name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.7.1/junit-jupiter-engine-5.7.1.jar" />
+  </library>
+  <library name="Maven: org.junit.platform:junit-platform-engine:1.7.1">
+    <archive path="C:/Users/Annika/.m2/repository/org/junit/platform/junit-platform-engine/1.7.1/junit-platform-engine-1.7.1.jar" />
   </library>
   <library name="Python 3.7 interpreter library" />
   <library name="Python 3.9 interpreter library">
