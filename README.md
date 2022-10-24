@@ -16,7 +16,7 @@ On left click you build (=uncover) a cell. On right click you flag a cell which 
 
 There are a number of bonus interactions:
 * There are special well-fields. When they are uncovered you can scroll on them to get water from the ground.
-* If you build on a peatland (= hit a mine) and you got water from a well before, you can blow in your microphone to cool down the planet by using the water to rewater the peatland (= the mine does not count as hit)
+* If you build on a peatland (= hit a mine), you got water from a well before and the planet doesn´t explode yet, you can blow in your microphone to cool down the planet by using the water to rewater the peatland (= the mine then does not count as hit).
 * You can conduct research on your planet three times by dragging over fields. This way you can check if there is peatland (= a mine) below them and whether you can built on a cell (=uncover) it safely. Each research has a maximum duration of one full second.
 
 ## Running the Application
